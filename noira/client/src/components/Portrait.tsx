@@ -56,9 +56,11 @@ export function Portrait({ name, motif, className, compact = false }: Props) {
       <div className="grain absolute inset-0" />
       {!compact && (
         <div className="absolute inset-0 flex items-center justify-center">
-          <span
-            className="display select-none text-[clamp(2.5rem,7vw,4.5rem)] font-light tracking-[0.08em] text-white/25">
-            {initials}
+          {/* Monogramm im Lichtring — die Eklipse als Rahmen für den Namen */}
+          <span className="relative flex aspect-square w-[42%] items-center justify-center rounded-full border border-white/15">
+            <span className="display select-none text-[clamp(1.75rem,5.5vw,3rem)] tracking-[0.06em] text-white/30">
+              {initials}
+            </span>
           </span>
         </div>
       )}

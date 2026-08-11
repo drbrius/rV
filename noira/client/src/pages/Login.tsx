@@ -29,7 +29,7 @@ export default function Login() {
   return (
     <div className="container-noira flex min-h-[75vh] items-center justify-center py-14">
       <div className="w-full max-w-md">
-        <Wordmark className="mx-auto mb-9 h-7 justify-center" />
+        <Wordmark className="mb-9 flex justify-center text-[0.95rem]" />
 
         <div className="card-noir p-7 sm:p-8">
           <div className="mb-7 grid grid-cols-2 rounded-full border border-line p-1">

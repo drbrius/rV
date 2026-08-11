@@ -56,8 +56,8 @@ export type Category = {
   label: string;
   short: string;
   description: string;
-  /** Kurzer Icon-Glyph — bewusst typografisch statt bildlich */
-  glyph: string;
+  /** Index der Eklipsen-Phase, siehe components/Phase.tsx */
+  phase: number;
 };
 
 export const CATEGORIES: Category[] = [
@@ -66,63 +66,63 @@ export const CATEGORIES: Category[] = [
     label: "Begleitung & Escort",
     short: "Begleitung",
     description: "Zeit zu zweit, Dinner-Dates, Reisebegleitung.",
-    glyph: "❋",
+    phase: 0,
   },
   {
     id: "massage",
     label: "Massage & Wellness",
     short: "Massage",
     description: "Tantra, Körper-zu-Körper, Entspannung.",
-    glyph: "≋",
+    phase: 1,
   },
   {
     id: "dominanz",
     label: "Dominanz & Fetisch",
     short: "Dominanz",
     description: "BDSM, Rollenspiele, Fetisch-Sessions.",
-    glyph: "✦",
+    phase: 2,
   },
   {
     id: "trans",
     label: "Trans & Non-Binär",
     short: "Trans",
     description: "Trans*, non-binäre und queere Anbietende.",
-    glyph: "⬨",
+    phase: 3,
   },
   {
     id: "paare",
     label: "Paare",
     short: "Paare",
     description: "Gemeinsame Begegnungen zu dritt oder viert.",
-    glyph: "⧗",
+    phase: 4,
   },
   {
     id: "herren",
     label: "Herren",
     short: "Herren",
     description: "Männliche Begleitung für alle Geschlechter.",
-    glyph: "◈",
+    phase: 5,
   },
   {
     id: "club",
     label: "Clubs & Sauna",
     short: "Clubs",
     description: "Häuser, Sauna-Clubs und Events.",
-    glyph: "◍",
+    phase: 6,
   },
   {
     id: "studio",
     label: "Studios & Apartments",
     short: "Studios",
     description: "Feste Adressen mit mehreren Anbietenden.",
-    glyph: "▤",
+    phase: 7,
   },
   {
     id: "digital",
     label: "Digital & Cam",
     short: "Digital",
     description: "Video-Dates, Chat, digitale Inhalte.",
-    glyph: "⌁",
+    phase: 8,
   },
 ];
 

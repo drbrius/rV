@@ -8,7 +8,7 @@
 
 import { useEffect, useState } from "react";
 import { Link } from "wouter";
-import { Wordmark } from "./Wordmark";
+import { EclipseMark, Wordmark } from "./Wordmark";
 
 const STORAGE_KEY = "noira.agegate.v1";
 const EXIT_URL = "https://www.google.ch";
@@ -54,8 +54,11 @@ export function AgeGate() {
       aria-labelledby="agegate-title">
       <div className="aura -top-24 left-1/3 h-96 w-96" style={{ background: "#6D2C4E" }} />
       <div className="relative w-full max-w-lg card-noir p-8 text-center sm:p-10">
-        <Wordmark className="mx-auto mb-7 h-7 justify-center" />
-        <p className="eyebrow mb-4">Zutritt ab 18 Jahren</p>
+        {/* Erster Kontakt mit der Marke: das Zeichen allein, gross und
+            ohne Erklärung — der Schriftzug folgt erst darunter. */}
+        <EclipseMark className="mx-auto mb-6 h-16 w-16" />
+        <Wordmark className="mb-8 flex justify-center text-[0.85rem]" />
+        <p className="eyebrow mx-auto mb-4">Zutritt ab 18 Jahren</p>
         <h1 id="agegate-title" className="display mb-4 text-3xl sm:text-4xl">
           Diese Seite enthält Inhalte für <span className="text-gilded">Erwachsene</span>
         </h1>

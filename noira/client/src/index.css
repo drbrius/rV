@@ -1,13 +1,100 @@
 /* ============================================================
    NOIRA — Design System
-   "Noir Luxe": tiefes Nachtschwarz, Champagner-Gold, Orchidee.
-   Editorial-Serif für Stimmung, Grotesk für Funktion.
-   Ruhig, hochwertig, diskret — bewusst das Gegenteil der
-   überladenen Rotlicht-Portale.
+   Leitbild: die Eklipse. Der Name enthält sie bereits —
+   NOIR, die verdeckte Scheibe, und AURA, die Korona darum.
+   Daraus folgt alles Weitere: fast schwarze Flächen, Licht
+   ausschliesslich an den Rändern, ein einziger warmer Akzent.
+
+   Typografie: Bodoni Moda als Display. Ihr extremer Kontrast
+   zwischen Haar- und Grundstrich ist dieselbe Figur wie die
+   Eklipse — Licht neben Dunkel, ohne Zwischenton. Ihre
+   kreisrunden Punzen nehmen die Form des Zeichens auf.
+   Funktion bleibt bei Inter: alles unter 24px muss lesbar
+   sein, nicht schön.
    ============================================================ */
 
 @import "tailwindcss";
 @import "tw-animate-css";
+
+/* ------------------------------------------------------------
+   Schriften, selbst gehostet.
+   Kein Aufruf zu fonts.googleapis.com: Eine Plattform, die
+   Diskretion verspricht, darf die IP-Adresse ihrer Besuchenden
+   nicht an Dritte weiterreichen — auch nicht für Schriften.
+   Nur die Subsets latin und latin-ext, variable Achsen.
+   ------------------------------------------------------------ */
+
+@font-face {
+  font-family: "Bodoni Moda";
+  font-style: italic;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("/fonts/bodoni-italic-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Bodoni Moda";
+  font-style: italic;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("/fonts/bodoni-italic-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Bodoni Moda";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("/fonts/bodoni-normal-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Bodoni Moda";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("/fonts/bodoni-normal-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("/fonts/inter-normal-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("/fonts/inter-normal-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url("/fonts/mono-normal-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url("/fonts/mono-normal-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
@@ -44,20 +131,24 @@
   --color-surface-2: var(--noira-surface-2);
   --color-line: var(--noira-line);
   --color-verified: var(--noira-verified);
+  --color-corona: var(--noira-corona);
 
-  --font-display: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
+  --font-display: "Bodoni Moda", "Didot", "Playfair Display", Georgia, serif;
   --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
 
 :root {
   /* --- Kernpalette ------------------------------------------------ */
-  --noira-ink: oklch(0.128 0.008 300); /* Seitengrund, warmes Nachtschwarz */
-  --noira-surface: oklch(0.176 0.011 300); /* Karten */
-  --noira-surface-2: oklch(0.222 0.013 300); /* Karten-Hover, Inputs */
-  --noira-line: oklch(0.3 0.012 300); /* Haarlinien */
-  --noira-gold: oklch(0.815 0.101 84); /* Champagner-Gold, Primärakzent */
-  --noira-gold-soft: oklch(0.66 0.075 84);
+  /* Der Grund ist dunkler als üblich: Die Korona wirkt nur, wenn
+     die Scheibe wirklich schwarz ist. */
+  --noira-ink: oklch(0.115 0.009 295); /* Seitengrund, kühles Nachtschwarz */
+  --noira-surface: oklch(0.163 0.011 295); /* Karten */
+  --noira-surface-2: oklch(0.212 0.013 295); /* Karten-Hover, Inputs */
+  --noira-line: oklch(0.288 0.012 295); /* Haarlinien */
+  --noira-gold: oklch(0.828 0.108 82); /* Champagner-Gold, Primärakzent */
+  --noira-gold-soft: oklch(0.665 0.078 82);
+  --noira-corona: oklch(0.955 0.048 92); /* Lichtkante der Sichel */
   --noira-orchid: oklch(0.64 0.184 349); /* Sekundärakzent, Premium/Neu */
   --noira-verified: oklch(0.76 0.128 165); /* Verifiziert-Badge */
 
@@ -146,16 +237,51 @@
 }
 
 @layer components {
-  /* Display-Typografie: grosse, ruhige Serif mit engem Satz */
+  /* Display-Typografie: Bodoni lebt von Grösse. Unter 1.25rem
+     brechen die Haarstriche weg — dort gilt die Grotesk. */
   .display {
     font-family: var(--font-display);
-    font-weight: 300;
-    letter-spacing: -0.015em;
-    line-height: 1.04;
+    font-weight: 400;
+    font-optical-sizing: auto;
+    letter-spacing: -0.005em;
+    line-height: 1.06;
   }
 
-  /* Kleine Majuskel-Labels — die Signatur des Layouts */
+  /* Zahlen, die eine Entscheidung tragen — Preise, Kennzahlen.
+     Bodonis Haarstriche brechen in Gold auf Schwarz weg, darum
+     mehr Gewicht; Tabellenziffern, damit Beträge untereinander
+     bündig stehen. */
+  .numeral {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-optical-sizing: auto;
+    font-variant-numeric: tabular-nums lining-nums;
+    letter-spacing: 0.005em;
+    line-height: 1.1;
+  }
+
+  /* Bodoni zwischen 18 und 24px: etwas mehr Gewicht und Laufweite,
+     sonst verschwinden die Haarstriche auf dunklem Grund. */
+  .display-sm {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-optical-sizing: auto;
+    letter-spacing: 0.006em;
+    line-height: 1.15;
+  }
+
+  /* Kleine Majuskel-Labels — die Signatur des Layouts.
+     Der vorangestellte Punkt ist die Eklipse im Kleinstformat:
+     heller Kern, dunkler Rand. */
   .eyebrow {
+    /* flex statt inline-flex: sonst hängt sich das Label an ein
+       vorangehendes Inline-Element wie einen Zurück-Link an.
+       fit-content, damit es in zentrierten Blöcken mit mx-auto
+       weiterhin mittig sitzt. */
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    gap: 0.7em;
     font-family: var(--font-mono);
     font-size: 0.6875rem;
     letter-spacing: 0.22em;
@@ -163,24 +289,37 @@
     color: var(--noira-gold-soft);
   }
 
+  .eyebrow::before {
+    content: "";
+    width: 0.55em;
+    height: 0.55em;
+    border-radius: 999px;
+    background: var(--noira-gold);
+    box-shadow: 0 0 0 1px color-mix(in oklch, var(--noira-gold) 35%, transparent);
+    flex-shrink: 0;
+  }
+
+  /* Trennlinie als Lichtsaum: hell in der Mitte, verlaufend zum Rand */
   .rule {
     height: 1px;
     background: linear-gradient(
       to right,
       transparent,
-      var(--noira-line) 12%,
-      var(--noira-line) 88%,
+      var(--noira-line) 18%,
+      color-mix(in oklch, var(--noira-gold) 32%, var(--noira-line)) 50%,
+      var(--noira-line) 82%,
       transparent
     );
   }
 
-  /* Gold-Verlauf für Schlüsselwörter in Headlines */
+  /* Gold-Verlauf für Schlüsselwörter in Headlines — von der
+     Korona ins Gold, wie die Sichel von aussen nach innen */
   .text-gilded {
     background: linear-gradient(
       100deg,
-      oklch(0.9 0.07 90),
-      oklch(0.815 0.101 84) 45%,
-      oklch(0.7 0.09 70)
+      var(--noira-corona),
+      var(--noira-gold) 42%,
+      oklch(0.68 0.085 68)
     );
     -webkit-background-clip: text;
     background-clip: text;
@@ -188,6 +327,7 @@
   }
 
   .card-noir {
+    position: relative;
     background: var(--noira-surface);
     border: 1px solid var(--noira-line);
     border-radius: var(--radius-xl);
@@ -197,9 +337,34 @@
       box-shadow 0.35s ease;
   }
 
+  /* Beim Hover fährt ein Lichtsaum über die obere Kante —
+     dieselbe Geste wie die Sichel im Zeichen. */
+  .card-noir::after {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 1px;
+    z-index: 1;
+    border-radius: 999px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--noira-corona) 45%,
+      var(--noira-gold) 55%,
+      transparent
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+
   .card-noir:hover {
     border-color: color-mix(in oklch, var(--noira-gold) 45%, transparent);
     box-shadow: 0 18px 46px -22px oklch(0 0 0 / 0.85);
+  }
+
+  .card-noir:hover::after {
+    opacity: 0.85;
   }
 
   /* Sanftes Vignetten-Licht hinter dem Hero */

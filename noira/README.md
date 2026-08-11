@@ -46,26 +46,71 @@ Drei Entscheidungen, aus denen alles Weitere folgt:
    Anonymitätsgrad — Karte, TWINT, Krypto — und ein neutraler Buchungstext, der
    auf keinem Kontoauszug erklärt werden muss.
 
-## 3. Design-System
+## 3. Marke: die Eklipse
 
-„Noir Luxe": Editorial-Ästhetik in Nachtschwarz, Gold als einziger Leuchtakzent.
-Tokens liegen zentral in `client/src/index.css`.
+Der Name enthält das Zeichen bereits — **NOIR**, die verdeckte Scheibe, und
+**AURA**, die Korona, die darum leuchtet. Genau das ist das Versprechen der
+Plattform: nichts wird ausgestellt, alles leuchtet am Rand.
+
+**Das Zeichen** (`components/Wordmark.tsx`) ist eine Eklipse: Lichtring, dunkle
+Scheibe, goldene Sichel und der helle Punkt des Diamantring-Effekts. Es **ersetzt
+das O im Wort** — die Stelle, an der eine Marke unverwechselbar wird. Weil es ein
+Kreis bleibt, liest es sich auch als Buchstabe, wenn man das Konzept nicht kennt;
+das ist die Bedingung dafür, dass ein Logo ungewöhnlich sein darf. `EclipseMark`
+steht zusätzlich allein (Favicon, App-Icon, Altersschranke).
+
+**Die Kategorie-Zeichen** (`components/Phase.tsx`) sind neun Phasen derselben
+Eklipse: gleiche Scheibe, gleicher Saum, nur der Winkel der Verdeckung ändert
+sich. Eine erkennbare Familie statt neun zusammengesuchter Symbole — und immer
+neben der Beschriftung, nie an ihrer Stelle. Ein Zeichen, das seine Bedeutung
+erst erklären muss, darf nicht allein navigieren.
+
+**Dieselbe Figur im ganzen Layout:** der Lichtsaum, der beim Hover über die obere
+Kante jeder Karte fährt; der Lesefortschritt als Korona-Linie unter der
+Navigation; die Trennlinien, die zur Mitte hin aufleuchten; der glühende Punkt vor
+jedem Majuskel-Label; der Lichtring um jedes Monogramm.
+
+### Farbe
 
 | Rolle | Wert | Einsatz |
 | --- | --- | --- |
-| Grund | `oklch(0.128 0.008 300)` — warmes Nachtschwarz | Seitenhintergrund |
-| Fläche | `oklch(0.176 0.011 300)` | Karten, Panels |
-| Gold | `oklch(0.815 0.101 84)` | Primäraktion, Preise, Premium |
+| Grund | `oklch(0.115 0.009 295)` — kühles Nachtschwarz | Seitenhintergrund |
+| Fläche | `oklch(0.163 0.011 295)` | Karten, Panels |
+| Gold | `oklch(0.828 0.108 82)` | Primäraktion, Preise, Premium |
+| Korona | `oklch(0.955 0.048 92)` | Lichtkanten, Verlaufsspitzen |
 | Orchidee | `oklch(0.64 0.184 349)` | „Neu", Merkliste |
 | Verifiziert | `oklch(0.76 0.128 165)` | Prüfzeichen, Online-Status |
 
-**Typografie:** Cormorant Garamond (Display, 300er Schnitt, kursiv für den Akzent),
-Inter (Fliesstext, UI), JetBrains Mono (Labels in Majuskeln mit `0.22em` Sperrung —
-die Signatur des Layouts).
+Der Grund ist dunkler als bei vergleichbaren Seiten — die Korona wirkt nur, wenn
+die Scheibe wirklich schwarz ist.
+
+### Typografie
+
+**Bodoni Moda** als Display. Ihr extremer Kontrast zwischen Haar- und Grundstrich
+ist dieselbe Figur wie die Eklipse: Licht neben Dunkel, ohne Zwischenton; ihre
+kreisrunden Punzen nehmen die Form des Zeichens auf. **Inter** trägt alles, was
+gelesen statt bewundert wird, **JetBrains Mono** die gesperrten Majuskel-Labels.
+
+Drei Stufen, damit die Eleganz nicht auf Kosten der Lesbarkeit geht:
+
+| Klasse | Einsatz |
+| --- | --- |
+| `.display` | ab 24px — Bodoni 400, die eigentliche Stimme der Marke |
+| `.display-sm` | 18–24px — Bodoni 500, sonst brechen die Haarstriche weg |
+| `.numeral` | Preise und Kennzahlen — Bodoni 600, Tabellenziffern |
+
+Alles unter 18px ist Inter. Eine Schrift, die man bewundert, aber nicht lesen
+kann, ist auf einer Plattform mit Preisen und Telefonnummern ein Fehler.
+
+**Schriften werden selbst ausgeliefert** (`client/public/fonts`, `@font-face` in
+`index.css`, nur die Subsets `latin` und `latin-ext`). Kein Aufruf zu
+fonts.googleapis.com: Wer Diskretion verspricht, darf die IP-Adresse seiner
+Besuchenden nicht für Schriften an Dritte weiterreichen.
 
 **Bildsprache:** Der Demo-Datensatz enthält bewusst **keine Personenfotos**.
 `Portrait.tsx` erzeugt aus der Inserat-ID ein stabiles, abstraktes Farbmotiv mit
-Monogramm. In Produktion tritt an dieselbe Stelle das erste freigegebene Foto.
+Monogramm im Lichtring. In Produktion tritt an dieselbe Stelle das erste
+freigegebene Foto.
 
 ## 4. Seiten und Informationsarchitektur
 

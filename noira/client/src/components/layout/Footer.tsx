@@ -14,11 +14,11 @@ const TOP_CANTONS = ["ZH", "BE", "BS", "GE", "VD", "LU", "AG", "SG", "TI", "ZG"]
 
 export function Footer() {
   return (
-    <footer className="mt-24 border-t border-line bg-[oklch(0.112_0.008_300)]">
+    <footer className="mt-24 border-t border-line bg-[oklch(0.095_0.008_295)]">
       <div className="container-noira py-14">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-5">
           <div className="lg:col-span-2">
-            <Wordmark className="mb-5 h-6" showDomain />
+            <Wordmark className="mb-5 text-[0.9rem]" showDomain />
             <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
               NOIRA ist eine Schweizer Inserateplattform für erotische Dienstleistungen. Wir
               vermitteln nicht, wir stellen die Bühne: Anbietende inserieren selbstständig,

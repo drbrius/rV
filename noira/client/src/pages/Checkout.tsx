@@ -501,7 +501,7 @@ export default function Checkout() {
                 <div className="rounded-xl border border-line bg-surface-2/40 p-5">
                   <div className="mb-4 flex items-baseline justify-between gap-3">
                     <span className="text-xs text-muted-foreground">Zu überweisen</span>
-                    <span className="display text-2xl text-gold">
+                    <span className="numeral text-2xl text-gold">
                       {cryptoAmount} {coin.ticker}
                     </span>
                   </div>
@@ -575,7 +575,7 @@ export default function Checkout() {
 
             <div className="flex items-baseline justify-between">
               <span className="text-sm text-muted-foreground">Total</span>
-              <span className="display text-3xl text-gold">{chf(total)}</span>
+              <span className="numeral text-3xl text-gold">{chf(total)}</span>
             </div>
             {method === "krypto" && (
               <p className="mt-1 text-right text-xs text-muted-foreground">

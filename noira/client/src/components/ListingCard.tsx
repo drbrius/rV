@@ -49,8 +49,11 @@ export function ListingCard({ listing, priority }: { listing: Listing; priority?
         {/* Medien-Hinweise oben rechts */}
         <div className="absolute top-3 right-3 flex items-center gap-1.5">
           {listing.hasVideo && (
+            /* Auf schmalen Karten nur das Symbol — sonst stösst die
+               Medienzeile mit dem Premium-Zeichen zusammen. */
             <span className="flex items-center gap-1 rounded-full bg-black/55 px-2 py-1 text-[0.625rem] text-white backdrop-blur-sm">
-              <Play className="h-2.5 w-2.5 fill-current" /> Video
+              <Play className="h-2.5 w-2.5 fill-current" />
+              <span className="hidden sm:inline">Video</span>
             </span>
           )}
           <span className="flex items-center gap-1 rounded-full bg-black/55 px-2 py-1 text-[0.625rem] text-white backdrop-blur-sm">
@@ -72,7 +75,7 @@ export function ListingCard({ listing, priority }: { listing: Listing; priority?
 
       <div className="flex flex-1 flex-col p-4">
         <div className="flex items-baseline gap-2">
-          <h3 className="display truncate text-xl text-foreground">{listing.name}</h3>
+          <h3 className="display-sm truncate text-[1.375rem] text-foreground">{listing.name}</h3>
           {listing.age > 0 && (
             <span className="text-sm text-muted-foreground">{listing.age}</span>
           )}
@@ -98,14 +101,14 @@ export function ListingCard({ listing, priority }: { listing: Listing; priority?
           {listing.tagline}
         </p>
 
-        <div className="mt-auto flex items-end justify-between gap-2 pt-4">
-          <span className="text-sm text-foreground">
+        <div className="mt-auto flex flex-col items-start gap-0.5 pt-4 sm:flex-row sm:items-end sm:justify-between sm:gap-2">
+          <span className="text-sm whitespace-nowrap text-foreground">
             ab <span className="text-gold">{chf(listing.rates.m30 ?? listing.rates.h1)}</span>
             <span className="text-xs text-muted-foreground">
               {listing.rates.m30 ? " / 30 Min." : " / Std."}
             </span>
           </span>
-          <span className="text-[0.6875rem] text-muted-foreground/70">
+          <span className="text-[0.6875rem] whitespace-nowrap text-muted-foreground/70">
             {priority ? "Top-Platzierung" : relativeDay(listing.published)}
           </span>
         </div>

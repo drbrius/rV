@@ -4,6 +4,7 @@
    Mobil: Vollflächiges Menü, Suche immer eine Berührung entfernt.
    ============================================================ */
 
+import { Phase } from "@/components/Phase";
 import { Wordmark } from "@/components/Wordmark";
 import { CATEGORIES, SITE_LOCALES } from "@/data/taxonomy";
 import { cn } from "@/lib/utils";
@@ -21,18 +22,29 @@ const NAV = [
 export function Header() {
   const [location, navigate] = useLocation();
   const [scrolled, setScrolled] = useState(false);
+  const [progress, setProgress] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const [catOpen, setCatOpen] = useState(false);
   const [localeOpen, setLocaleOpen] = useState(false);
   const [query, setQuery] = useState("");
   const catRef = useRef<HTMLDivElement>(null);
 
+  // Der Lesefortschritt läuft als Lichtsaum unter der Navigation mit —
+  // die Sichel des Zeichens, in die Breite gezogen.
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 12);
+      const reach = document.documentElement.scrollHeight - window.innerHeight;
+      setProgress(reach > 0 ? Math.min(1, window.scrollY / reach) : 0);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, [location]);
 
   // Navigation schliesst alle Overlays — sonst bleibt das Flyout beim
   // Seitenwechsel offen stehen.
@@ -68,7 +80,7 @@ export function Header() {
         )}>
         <div className="container-noira flex h-18 items-center gap-6">
           <Link href="/" aria-label="NOIRA Startseite">
-            <Wordmark className="h-6" />
+            <Wordmark className="text-[0.85rem]" />
           </Link>
 
           <nav className="hidden items-center gap-1 lg:flex">
@@ -91,9 +103,10 @@ export function Header() {
                         key={c.id}
                         href={`/inserate?kategorie=${c.id}`}
                         className="group flex items-start gap-3 rounded-lg px-3 py-2.5 transition hover:bg-surface-2">
-                        <span className="mt-0.5 text-lg text-gold-soft transition group-hover:text-gold">
-                          {c.glyph}
-                        </span>
+                        <Phase
+                          phase={c.phase}
+                          className="mt-0.5 h-5 w-5 text-gold-soft transition group-hover:text-gold"
+                        />
                         <span>
                           <span className="block text-sm text-foreground">{c.label}</span>
                           <span className="block text-xs text-muted-foreground">
@@ -186,13 +199,24 @@ export function Header() {
             </button>
           </div>
         </div>
+
+        <div
+          aria-hidden
+          className="absolute inset-x-0 bottom-0 h-px origin-left transition-opacity duration-300"
+          style={{
+            transform: `scaleX(${progress})`,
+            opacity: scrolled ? 1 : 0,
+            background:
+              "linear-gradient(to right, transparent, var(--noira-gold-soft) 30%, var(--noira-corona))",
+          }}
+        />
       </header>
 
       {/* --- Mobiles Menü ------------------------------------------------ */}
       {menuOpen && (
         <div className="fixed inset-0 z-60 flex flex-col bg-ink lg:hidden">
           <div className="container-noira flex h-18 shrink-0 items-center justify-between">
-            <Wordmark className="h-6" />
+            <Wordmark className="text-[0.85rem]" />
             <button
               onClick={() => setMenuOpen(false)}
               className="rounded-md p-2"
@@ -239,8 +263,8 @@ export function Header() {
                 <Link
                   key={c.id}
                   href={`/inserate?kategorie=${c.id}`}
-                  className="rounded-lg border border-line bg-surface px-3 py-3 text-sm">
-                  <span className="mr-2 text-gold-soft">{c.glyph}</span>
+                  className="flex items-center gap-2.5 rounded-lg border border-line bg-surface px-3 py-3 text-sm">
+                  <Phase phase={c.phase} className="h-4 w-4 text-gold-soft" />
                   {c.short}
                 </Link>
               ))}

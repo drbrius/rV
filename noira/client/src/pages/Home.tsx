@@ -6,6 +6,7 @@
    ============================================================ */
 
 import { ListingCard } from "@/components/ListingCard";
+import { Phase } from "@/components/Phase";
 import { Portrait } from "@/components/Portrait";
 import { LISTINGS, NEWEST_LISTINGS, PREMIUM_LISTINGS, countByCategory } from "@/data/listings";
 import { CANTONS, CATEGORIES } from "@/data/taxonomy";
@@ -182,7 +183,7 @@ export default function Home() {
             style={{ animationDelay: "240ms" }}>
             {STATS.map((s) => (
               <div key={s.label}>
-                <dt className="display text-3xl text-foreground">{s.value}</dt>
+                <dt className="numeral text-3xl text-foreground">{s.value}</dt>
                 <dd className="mt-1 text-xs text-muted-foreground">{s.label}</dd>
               </div>
             ))}
@@ -211,9 +212,10 @@ export default function Home() {
               key={c.id}
               href={`/inserate?kategorie=${c.id}`}
               className="card-noir group flex flex-col justify-between p-5 hover:-translate-y-0.5">
-              <span className="text-2xl text-gold-soft transition group-hover:text-gold">
-                {c.glyph}
-              </span>
+              <Phase
+                phase={c.phase}
+                className="h-7 w-7 text-gold-soft transition duration-500 group-hover:rotate-180 group-hover:text-gold"
+              />
               <span className="mt-8">
                 <span className="block text-sm font-medium text-foreground">{c.short}</span>
                 <span className="mt-1 block text-xs text-muted-foreground">
@@ -425,7 +427,7 @@ export default function Home() {
       {/* ---------- Abschluss ---------- */}
       <section className="container-noira mt-24 text-center">
         <div className="rule mb-14" />
-        <p className="eyebrow mb-5">
+        <p className="eyebrow mx-auto mb-5">
           {compactNumber(LISTINGS.reduce((s, l) => s + l.views, 0))} Profilaufrufe diesen Monat
         </p>
         <h2 className="display mx-auto max-w-2xl text-4xl sm:text-5xl">

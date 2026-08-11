@@ -312,7 +312,7 @@ export default function ListingDetail() {
             <div className="card-noir p-6">
               <div className="mb-5 flex items-baseline justify-between">
                 <span className="text-sm text-muted-foreground">ab</span>
-                <span className="display text-3xl text-gold">
+                <span className="numeral text-3xl text-gold">
                   {chf(listing.rates.m30 ?? listing.rates.h1)}
                 </span>
               </div>

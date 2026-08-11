@@ -167,7 +167,7 @@ export default function Advertise() {
                 <p className="mt-1.5 text-sm text-muted-foreground">{plan.tagline}</p>
 
                 <div className="mt-7 flex items-baseline gap-2">
-                  <span className="display text-5xl text-foreground">{chf(net, false)}</span>
+                  <span className="numeral text-5xl text-foreground">{chf(net, false)}</span>
                   <span className="text-sm text-muted-foreground">CHF / {duration} Tage</span>
                 </div>
                 <p className="mt-1.5 text-xs text-muted-foreground/70">

@@ -1,0 +1,272 @@
+/* ============================================================
+   NOIRA — Design System
+   "Noir Luxe": tiefes Nachtschwarz, Champagner-Gold, Orchidee.
+   Editorial-Serif für Stimmung, Grotesk für Funktion.
+   Ruhig, hochwertig, diskret — bewusst das Gegenteil der
+   überladenen Rotlicht-Portale.
+   ============================================================ */
+
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 6px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Markenfarben als Utility-Klassen verfügbar */
+  --color-gold: var(--noira-gold);
+  --color-gold-soft: var(--noira-gold-soft);
+  --color-orchid: var(--noira-orchid);
+  --color-ink: var(--noira-ink);
+  --color-surface: var(--noira-surface);
+  --color-surface-2: var(--noira-surface-2);
+  --color-line: var(--noira-line);
+  --color-verified: var(--noira-verified);
+
+  --font-display: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+:root {
+  /* --- Kernpalette ------------------------------------------------ */
+  --noira-ink: oklch(0.128 0.008 300); /* Seitengrund, warmes Nachtschwarz */
+  --noira-surface: oklch(0.176 0.011 300); /* Karten */
+  --noira-surface-2: oklch(0.222 0.013 300); /* Karten-Hover, Inputs */
+  --noira-line: oklch(0.3 0.012 300); /* Haarlinien */
+  --noira-gold: oklch(0.815 0.101 84); /* Champagner-Gold, Primärakzent */
+  --noira-gold-soft: oklch(0.66 0.075 84);
+  --noira-orchid: oklch(0.64 0.184 349); /* Sekundärakzent, Premium/Neu */
+  --noira-verified: oklch(0.76 0.128 165); /* Verifiziert-Badge */
+
+  --radius: 0.5rem;
+
+  /* --- Semantische Tokens (shadcn/ui) ----------------------------- */
+  --background: var(--noira-ink);
+  --foreground: oklch(0.955 0.004 300);
+  --card: var(--noira-surface);
+  --card-foreground: oklch(0.955 0.004 300);
+  --popover: oklch(0.163 0.012 300);
+  --popover-foreground: oklch(0.955 0.004 300);
+  --primary: var(--noira-gold);
+  --primary-foreground: oklch(0.14 0.01 300);
+  --secondary: var(--noira-surface-2);
+  --secondary-foreground: oklch(0.955 0.004 300);
+  --muted: var(--noira-surface-2);
+  --muted-foreground: oklch(0.688 0.011 300);
+  --accent: var(--noira-surface-2);
+  --accent-foreground: oklch(0.955 0.004 300);
+  --destructive: oklch(0.62 0.2 22);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: var(--noira-line);
+  --input: var(--noira-line);
+  --ring: var(--noira-gold);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--noira-gold);
+    color: oklch(0.14 0.01 300);
+  }
+
+  /* Fokus bleibt überall sichtbar — Barrierefreiheit vor Ästhetik */
+  :focus-visible {
+    outline: 2px solid var(--noira-gold);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--noira-ink);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--noira-line);
+    border-radius: 999px;
+    border: 2px solid var(--noira-ink);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--noira-gold-soft);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Display-Typografie: grosse, ruhige Serif mit engem Satz */
+  .display {
+    font-family: var(--font-display);
+    font-weight: 300;
+    letter-spacing: -0.015em;
+    line-height: 1.04;
+  }
+
+  /* Kleine Majuskel-Labels — die Signatur des Layouts */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--noira-gold-soft);
+  }
+
+  .rule {
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--noira-line) 12%,
+      var(--noira-line) 88%,
+      transparent
+    );
+  }
+
+  /* Gold-Verlauf für Schlüsselwörter in Headlines */
+  .text-gilded {
+    background: linear-gradient(
+      100deg,
+      oklch(0.9 0.07 90),
+      oklch(0.815 0.101 84) 45%,
+      oklch(0.7 0.09 70)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .card-noir {
+    background: var(--noira-surface);
+    border: 1px solid var(--noira-line);
+    border-radius: var(--radius-xl);
+    transition:
+      border-color 0.35s ease,
+      transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.35s ease;
+  }
+
+  .card-noir:hover {
+    border-color: color-mix(in oklch, var(--noira-gold) 45%, transparent);
+    box-shadow: 0 18px 46px -22px oklch(0 0 0 / 0.85);
+  }
+
+  /* Sanftes Vignetten-Licht hinter dem Hero */
+  .aura {
+    position: absolute;
+    border-radius: 999px;
+    filter: blur(90px);
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  .grain::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.35;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+    mix-blend-mode: overlay;
+  }
+}
+
+@layer utilities {
+  .container-noira {
+    width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .container-noira {
+      padding-inline: 2rem;
+    }
+  }
+
+  .fade-up {
+    animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .shimmer {
+    background-size: 200% 100%;
+    animation: shimmer 2.6s linear infinite;
+  }
+
+  @keyframes shimmer {
+    to {
+      background-position: -200% 0;
+    }
+  }
+
+  /* Scrollbare Filterleisten ohne sichtbare Leiste */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+}

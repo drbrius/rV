@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /kasse
+Disallow: /login
+Disallow: /registrieren
+
+Sitemap: https://noira.ch/sitemap.xml

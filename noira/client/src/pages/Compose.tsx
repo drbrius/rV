@@ -100,7 +100,7 @@ function codewordOfDay(d = new Date()) {
 }
 
 const inputClass =
-  "w-full rounded-lg border border-line bg-surface-2/60 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-gold/60 focus:outline-none";
+  "w-full rounded-lg border border-line bg-surface-2/60 px-4 py-3 text-sm text-foreground placeholder:text-text-3 focus:border-gold/60 focus:outline-none";
 
 /**
  * Beschriftetes Feld. `group` ist keine Kosmetik: Ein <label> darf genau
@@ -125,7 +125,7 @@ function Field({
   const caption = (
     <>
       {label}
-      {hint && <span className="text-muted-foreground/60">{hint}</span>}
+      {hint && <span className="text-text-3">{hint}</span>}
     </>
   );
   const captionClass =
@@ -401,7 +401,7 @@ export default function Compose() {
           <BadgeCheck
             className={cn(
               "mt-px h-4 w-4 shrink-0",
-              preview.verified ? "text-verified" : "text-muted-foreground/40",
+              preview.verified ? "text-verified" : "text-text-3",
             )}
             strokeWidth={1.6}
           />
@@ -699,7 +699,7 @@ export default function Compose() {
                 />
                 <span>
                   Nummer verbergen und Anrufe über eine NOIRA-Rufnummer weiterleiten
-                  <span className="mt-0.5 block text-xs text-muted-foreground/70">
+                  <span className="mt-0.5 block text-xs text-text-3">
                     Ihre echte Nummer sieht dann niemand — auch nicht nach dem Anruf.
                   </span>
                 </span>
@@ -768,7 +768,7 @@ export default function Compose() {
                 {err(3, "photos") && (
                   <p className="mt-2 text-xs text-destructive">{errorsByStep[3].photos}</p>
                 )}
-                <p className="mt-3 text-xs leading-relaxed text-muted-foreground/70">
+                <p className="mt-3 text-xs leading-relaxed text-text-3">
                   Das erste Foto ist das Titelbild. Bilder müssen Sie selbst zeigen und dürfen nicht
                   älter als zwölf Monate sein. Gesichter dürfen Sie unkenntlich machen — das kostet
                   erfahrungsgemäss Kontakte, ist aber Ihre Entscheidung.
@@ -818,7 +818,7 @@ export default function Compose() {
                   </p>
                 )}
 
-                <p className="mt-4 text-xs leading-relaxed text-muted-foreground/70">
+                <p className="mt-4 text-xs leading-relaxed text-text-3">
                   In dieser Demo verlassen die Dateien Ihren Browser nicht — es wird nichts
                   hochgeladen und nichts gespeichert.
                 </p>

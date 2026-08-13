@@ -160,7 +160,7 @@ function Toggle({
         {label}
       </span>
       {count !== undefined && (
-        <span className="font-mono text-xs text-muted-foreground/60">{count}</span>
+        <span className="font-mono text-xs text-text-3">{count}</span>
       )}
     </label>
   );
@@ -457,7 +457,7 @@ export default function Listings() {
             </div>
           )}
 
-          <p className="mt-10 text-center text-xs text-muted-foreground/70">
+          <p className="mt-10 text-center text-xs text-text-3">
 {t("list.disclaimer")}
           </p>
         </div>

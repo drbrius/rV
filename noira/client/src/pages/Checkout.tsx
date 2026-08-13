@@ -94,7 +94,7 @@ function Field({
     <label className="block">
       <span className="mb-1.5 flex items-baseline justify-between text-xs text-muted-foreground">
         {label}
-        {hint && <span className="text-muted-foreground/60">{hint}</span>}
+        {hint && <span className="text-text-3">{hint}</span>}
       </span>
       {children}
       {error && <span className="mt-1 block text-xs text-destructive">{error}</span>}
@@ -103,7 +103,7 @@ function Field({
 }
 
 const inputClass =
-  "w-full rounded-lg border border-line bg-surface-2/60 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-gold/60 focus:outline-none";
+  "w-full rounded-lg border border-line bg-surface-2/60 px-4 py-3 text-sm text-foreground placeholder:text-text-3 focus:border-gold/60 focus:outline-none";
 
 export default function Checkout() {
   const search = useSearch();
@@ -236,7 +236,7 @@ export default function Checkout() {
             </Link>
           </div>
 
-          <p className="mt-6 text-xs text-muted-foreground/70">
+          <p className="mt-6 text-xs text-text-3">
             Auf Ihrer Abrechnung erscheint «NM DIGITAL GMBH, ZUERICH».
           </p>
         </div>
@@ -444,7 +444,7 @@ export default function Checkout() {
                   </Field>
                 </div>
 
-                <p className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground/80">
+                <p className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
                   <Lock className="mt-0.5 h-3.5 w-3.5 shrink-0" strokeWidth={1.6} />
                   Die Zahlung wird über einen Schweizer Zahlungsdienstleister mit 3-D Secure
                   abgewickelt. Kartendaten werden nicht bei NOIRA gespeichert.
@@ -537,7 +537,7 @@ export default function Checkout() {
                     — 1 {coin.ticker} = {chf(coin.rate)}
                   </p>
 
-                  <p className="mt-3 text-xs leading-relaxed text-muted-foreground/70">
+                  <p className="mt-3 text-xs leading-relaxed text-text-3">
                     Senden Sie ausschliesslich über das angegebene Netzwerk. Der QR-Code für Ihre
                     Wallet erscheint nach dem Bestätigen; die Freischaltung erfolgt nach der ersten
                     Netzwerkbestätigung.
@@ -557,7 +557,7 @@ export default function Checkout() {
               <div className="flex justify-between gap-4">
                 <dt className="text-muted-foreground">
                   Paket {plan.name}
-                  <span className="block text-xs text-muted-foreground/60">
+                  <span className="block text-xs text-text-3">
                     {duration} Tage · bis zu {plan.photos} Fotos
                   </span>
                 </dt>
@@ -621,7 +621,7 @@ export default function Checkout() {
               )}
             </button>
 
-            <ul className="mt-5 space-y-2 text-xs text-muted-foreground/80">
+            <ul className="mt-5 space-y-2 text-xs text-muted-foreground">
               <li className="flex items-center gap-2">
                 <ShieldCheck className="h-3.5 w-3.5 shrink-0 text-verified" strokeWidth={1.6} />
                 Neutrale Bezeichnung auf der Abrechnung
@@ -637,7 +637,7 @@ export default function Checkout() {
             </ul>
           </div>
 
-          <p className="mt-4 px-2 text-xs leading-relaxed text-muted-foreground/60">
+          <p className="mt-4 px-2 text-xs leading-relaxed text-text-3">
             Demo-Umgebung: Es wird keine echte Zahlung ausgelöst und keine Kartendaten übermittelt.
           </p>
         </aside>

@@ -10,6 +10,7 @@ pnpm dev        # http://localhost:3000
 pnpm build      # dist/
 pnpm check      # tsc --noEmit
 pnpm bundle     # dist/noira-einzeldatei.html — alles in einer Datei
+pnpm check:contrast   # WCAG-Kontrastprüfung gegen die laufende Vorschau
 ```
 
 `pnpm bundle` faltet JS, CSS, Schriften und Favicon in eine einzige HTML-Datei
@@ -107,6 +108,27 @@ Drei Stufen, damit die Eleganz nicht auf Kosten der Lesbarkeit geht:
 
 Alles unter 18px ist Inter. Eine Schrift, die man bewundert, aber nicht lesen
 kann, ist auf einer Plattform mit Preisen und Telefonnummern ein Fehler.
+
+### Textfarben: drei Stufen, gemessen
+
+Anfangs war Text mit Deckkraft-Modifikatoren abgedunkelt — `/70`, `/60`, `/50`.
+Das erzeugt beliebig viele Stufen, die niemand entworfen hat, und auf diesem
+sehr dunklen Grund fielen 25 Stellen unter den Lesbarkeitsschwellwert. Jetzt
+drei benannte Stufen, jede gegen den dunkelsten vorkommenden Grund gemessen:
+
+| Token | Einsatz | Kontrast |
+| --- | --- | --- |
+| `--noira-text-1` | Überschriften, Werte, Eingaben | 17:1 |
+| `--noira-text-2` | Fliesstext, Sekundäres | 8.9:1 |
+| `--noira-text-3` | Bildlegenden, Rechtliches, Meta | 6.2:1 |
+
+`pnpm check:contrast` prüft das nach: Es geht jede Seite durch, rechnet für
+jeden Textknoten die tatsächliche Vorder- über die tatsächliche
+Hintergrundfarbe — Ebene für Ebene, inklusive Alpha und geerbter `opacity` —
+und bricht ab, sobald etwas unter WCAG AA liegt. Stand heute: **203
+Textstellen, null Verstösse**; die niedrigste Stelle liegt bei 5.15:1 (das rote
+18+-Zeichen), alles andere über 6:1. Der Verlaufstext der Schlagzeilen wird
+separat geprüft — sein dunkelster Farbstopp liegt bei 6.9:1.
 
 **Schriften werden selbst ausgeliefert** (`client/public/fonts`, `@font-face` in
 `index.css`, nur die Subsets `latin` und `latin-ext`). Kein Aufruf zu

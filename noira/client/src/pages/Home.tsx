@@ -128,7 +128,7 @@ function HeroSearch() {
             onChange={(e) => setQ(e.target.value)}
             placeholder="Name, Stadt oder Service"
             aria-label="Suchbegriff"
-            className="w-full rounded-lg border border-line bg-surface-2/60 py-3.5 pr-4 pl-11 text-sm placeholder:text-muted-foreground/70 focus:border-gold/60 focus:outline-none"
+            className="w-full rounded-lg border border-line bg-surface-2/60 py-3.5 pr-4 pl-11 text-sm placeholder:text-text-3 focus:border-gold/60 focus:outline-none"
           />
         </label>
 
@@ -365,7 +365,7 @@ export default function Home() {
               </Link>
             </div>
 
-            <p className="mt-6 flex flex-wrap items-center gap-4 text-xs text-muted-foreground/80">
+            <p className="mt-6 flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
               <span className="flex items-center gap-1.5">
                 <CreditCard className="h-3.5 w-3.5" strokeWidth={1.6} /> Visa · Mastercard · Amex ·
                 TWINT

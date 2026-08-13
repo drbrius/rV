@@ -57,8 +57,8 @@ export function Portrait({ name, motif, className, compact = false }: Props) {
       {!compact && (
         <div className="absolute inset-0 flex items-center justify-center">
           {/* Monogramm im Lichtring — die Eklipse als Rahmen für den Namen */}
-          <span className="relative flex aspect-square w-[42%] items-center justify-center rounded-full border border-white/15">
-            <span className="display select-none text-[clamp(1.75rem,5.5vw,3rem)] tracking-[0.06em] text-white/30">
+          <span className="relative flex aspect-square w-[42%] items-center justify-center rounded-full border border-white/25">
+            <span className="display select-none text-[clamp(1.75rem,5.5vw,3rem)] tracking-[0.06em] text-white/55">
               {initials}
             </span>
           </span>

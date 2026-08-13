@@ -64,7 +64,7 @@ export function ListingCard({
             </span>
           )}
           {fresh && !listing.premium && (
-            <span className="rounded-full bg-orchid px-2.5 py-1 font-mono text-[0.625rem] font-semibold tracking-widest text-white uppercase">
+            <span className="rounded-full bg-orchid px-2.5 py-1 font-mono text-[0.625rem] font-semibold tracking-widest text-ink uppercase">
               {t("card.new")}
             </span>
           )}
@@ -117,13 +117,13 @@ export function ListingCard({
         <p className="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
           <MapPin className="h-3 w-3" strokeWidth={1.6} />
           {listing.city}
-          <span className="text-muted-foreground/50">·</span>
+          <span className="text-text-3">·</span>
           {canton?.code}
-          <span className="text-muted-foreground/50">·</span>
+          <span className="text-text-3">·</span>
           {t(`cat.${listing.category}.short`)}
         </p>
 
-        <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-muted-foreground/90">
+        <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
           {listing.tagline}
         </p>
 
@@ -135,7 +135,7 @@ export function ListingCard({
               {listing.rates.m30 ? t("card.per30") : t("card.perHour")}
             </span>
           </span>
-          <span className="text-[0.6875rem] whitespace-nowrap text-muted-foreground/70">
+          <span className="text-[0.6875rem] whitespace-nowrap text-text-3">
             {priority ? t("card.topPlacement") : relativeDay(listing.published, locale)}
           </span>
         </div>

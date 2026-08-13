@@ -144,7 +144,7 @@ export function Footer() {
 
         <div className="rule my-10" />
 
-        <div className="flex flex-col gap-4 text-xs text-muted-foreground/80 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-4 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
           <p>{t("footer.copyright", { year: new Date().getFullYear() })}</p>
           <p className="flex items-center gap-3">
             <span className="rounded border border-destructive/50 px-2 py-0.5 font-mono text-destructive">

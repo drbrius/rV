@@ -226,7 +226,7 @@ export default function Safety() {
 
                 <label className="block">
                   <span className="mb-1.5 flex justify-between text-xs text-muted-foreground">
-                    E-Mail <span className="text-muted-foreground/60">optional</span>
+                    E-Mail <span className="text-text-3">optional</span>
                   </span>
                   <input
                     type="email"
@@ -240,7 +240,7 @@ export default function Safety() {
                   className="w-full rounded-full bg-gold px-6 py-3.5 text-sm font-semibold text-ink transition hover:brightness-110">
                   Meldung absenden
                 </button>
-                <p className="text-center text-xs text-muted-foreground/70">
+                <p className="text-center text-xs text-text-3">
                   Bei akuter Gefahr bitte zuerst die 117 anrufen.
                 </p>
               </form>

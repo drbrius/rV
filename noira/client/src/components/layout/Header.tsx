@@ -151,7 +151,7 @@ export function Header() {
                 type="search"
                 placeholder={t("nav.search")}
                 aria-label={t("nav.searchAria")}
-                className="w-full rounded-full border border-line bg-surface/70 py-2 pr-4 pl-9 text-sm placeholder:text-muted-foreground/70 focus:border-gold/60 focus:outline-none"
+                className="w-full rounded-full border border-line bg-surface/70 py-2 pr-4 pl-9 text-sm placeholder:text-text-3 focus:border-gold/60 focus:outline-none"
               />
             </label>
           </form>
@@ -195,7 +195,7 @@ export function Header() {
                 strokeWidth={1.6}
               />
               {saved.length > 0 && (
-                <span className="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-orchid px-1 font-mono text-[0.5625rem] font-semibold text-white">
+                <span className="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-orchid px-1 font-mono text-[0.5625rem] font-semibold text-ink">
                   {saved.length}
                 </span>
               )}
@@ -280,7 +280,7 @@ export function Header() {
                 className="flex items-center justify-between border-b border-line py-3.5 text-lg text-foreground">
                 {t("nav.saved")}
                 {saved.length > 0 && (
-                  <span className="rounded-full bg-orchid px-2 py-0.5 font-mono text-xs text-white">
+                  <span className="rounded-full bg-orchid px-2 py-0.5 font-mono text-xs text-ink">
                     {saved.length}
                   </span>
                 )}

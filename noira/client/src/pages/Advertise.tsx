@@ -104,7 +104,7 @@ export default function Advertise() {
             <div key={s.title} className="card-noir p-7">
               <div className="mb-5 flex items-center justify-between">
                 <s.icon className="h-6 w-6 text-gold" strokeWidth={1.4} />
-                <span className="display text-4xl text-muted-foreground/30">0{i + 1}</span>
+                <span className="display text-4xl text-text-3">0{i + 1}</span>
               </div>
               <h3 className="display mb-2.5 text-2xl">{s.title}</h3>
               <p className="text-sm leading-relaxed text-muted-foreground">{s.text}</p>
@@ -171,7 +171,7 @@ export default function Advertise() {
                   <span className="numeral text-5xl text-foreground">{chf(net, false)}</span>
                   <span className="text-sm text-muted-foreground">CHF / {duration} Tage</span>
                 </div>
-                <p className="mt-1.5 text-xs text-muted-foreground/70">
+                <p className="mt-1.5 text-xs text-text-3">
                   entspricht {chf(Math.round(perDay * 100) / 100)} pro Tag · inkl. MWST{" "}
                   {chf(Math.round(net * (1 + VAT_RATE)))}
                 </p>
@@ -200,7 +200,7 @@ export default function Advertise() {
           })}
         </div>
 
-        <p className="mt-6 text-center text-xs text-muted-foreground/70">
+        <p className="mt-6 text-center text-xs text-text-3">
           Clubs, Studios und Agenturen mit mehreren Profilen: Sammelrechnung auf Anfrage unter
           partner@noira.ch
         </p>

@@ -205,7 +205,7 @@ export default function Legal() {
         <article className="max-w-2xl">
           <h1 className="display text-4xl sm:text-5xl">{doc.title}</h1>
           <p className="mt-4 leading-relaxed text-muted-foreground">{doc.intro}</p>
-          <p className="mt-2 text-xs text-muted-foreground/60">
+          <p className="mt-2 text-xs text-text-3">
             Zuletzt aktualisiert: {doc.updated}
           </p>
 
@@ -226,7 +226,7 @@ export default function Legal() {
             ))}
           </div>
 
-          <p className="mt-14 rounded-xl border border-line bg-surface/60 p-5 text-xs leading-relaxed text-muted-foreground/70">
+          <p className="mt-14 rounded-xl border border-line bg-surface/60 p-5 text-xs leading-relaxed text-text-3">
             Entwurfsfassung für die Gestaltung. Vor der Aufschaltung sind diese Texte anwaltlich zu
             prüfen und an die tatsächliche Gesellschaft, die eingesetzten Dienstleister sowie die
             kantonalen Melde- und Bewilligungspflichten anzupassen.

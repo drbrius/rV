@@ -132,6 +132,7 @@
   --color-line: var(--noira-line);
   --color-verified: var(--noira-verified);
   --color-corona: var(--noira-corona);
+  --color-text-3: var(--noira-text-3);
 
   --font-display: "Bodoni Moda", "Didot", "Playfair Display", Georgia, serif;
   --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -149,26 +150,37 @@
   --noira-gold: oklch(0.828 0.108 82); /* Champagner-Gold, Primärakzent */
   --noira-gold-soft: oklch(0.665 0.078 82);
   --noira-corona: oklch(0.955 0.048 92); /* Lichtkante der Sichel */
-  --noira-orchid: oklch(0.64 0.184 349); /* Sekundärakzent, Premium/Neu */
+  --noira-orchid: oklch(0.64 0.184 349); /* Sekundärakzent, „Neu", Merkliste */
   --noira-verified: oklch(0.76 0.128 165); /* Verifiziert-Badge */
+
+  /* --- Textfarben: drei Stufen, keine Zwischentöne ------------------
+     Vorher wurde Text mit Deckkraft-Modifikatoren (/70, /60, /50)
+     abgedunkelt. Das erzeugt beliebig viele Stufen, die niemand
+     entworfen hat — und auf dem sehr dunklen Grund fielen mehrere
+     davon unter den Lesbarkeitsschwellwert.
+     Jetzt drei benannte Stufen, jede gegen den dunkelsten Grund
+     gemessen (WCAG 2.1, Verhältnis in Klammern). */
+  --noira-text-1: oklch(0.955 0.004 300); /* Primär: Überschriften, Werte (17:1) */
+  --noira-text-2: oklch(0.735 0.011 300); /* Sekundär: Fliesstext (8.9:1) */
+  --noira-text-3: oklch(0.655 0.012 300); /* Tertiär: Bildlegenden, Rechtliches (6.2:1) */
 
   --radius: 0.5rem;
 
   /* --- Semantische Tokens (shadcn/ui) ----------------------------- */
   --background: var(--noira-ink);
-  --foreground: oklch(0.955 0.004 300);
+  --foreground: var(--noira-text-1);
   --card: var(--noira-surface);
-  --card-foreground: oklch(0.955 0.004 300);
+  --card-foreground: var(--noira-text-1);
   --popover: oklch(0.163 0.012 300);
-  --popover-foreground: oklch(0.955 0.004 300);
+  --popover-foreground: var(--noira-text-1);
   --primary: var(--noira-gold);
   --primary-foreground: oklch(0.14 0.01 300);
   --secondary: var(--noira-surface-2);
-  --secondary-foreground: oklch(0.955 0.004 300);
+  --secondary-foreground: var(--noira-text-1);
   --muted: var(--noira-surface-2);
-  --muted-foreground: oklch(0.688 0.011 300);
+  --muted-foreground: var(--noira-text-2);
   --accent: var(--noira-surface-2);
-  --accent-foreground: oklch(0.955 0.004 300);
+  --accent-foreground: var(--noira-text-1);
   --destructive: oklch(0.62 0.2 22);
   --destructive-foreground: oklch(0.98 0 0);
   --border: var(--noira-line);

@@ -81,7 +81,7 @@ export function AgeGate() {
           </a>
         </div>
 
-        <p className="mt-7 text-xs leading-relaxed text-muted-foreground/70">
+        <p className="mt-7 text-xs leading-relaxed text-text-3">
           {/* Zwei Links mitten im Satz: Der Text kommt als Vorlage mit
               Platzhaltern, damit jede Sprache ihre eigene Satzstellung
               behalten darf. */}

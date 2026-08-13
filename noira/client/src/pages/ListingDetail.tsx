@@ -174,13 +174,13 @@ export default function ListingDetail() {
                   <MapPin className="h-3.5 w-3.5" strokeWidth={1.6} />
                   {listing.city}, {canton?.name}
                 </span>
-                <span className="text-muted-foreground/40">·</span>
+                <span className="text-text-3">·</span>
                 <Link
                   href={`/inserate?kategorie=${listing.category}`}
                   className="transition hover:text-foreground">
                   {category?.label}
                 </Link>
-                <span className="text-muted-foreground/40">·</span>
+                <span className="text-text-3">·</span>
                 <span>{compactNumber(listing.views)} Aufrufe</span>
               </p>
             </div>
@@ -283,7 +283,7 @@ export default function ListingDetail() {
                 ))}
             </tbody>
           </table>
-          <p className="mt-4 max-w-lg text-xs leading-relaxed text-muted-foreground/70">
+          <p className="mt-4 max-w-lg text-xs leading-relaxed text-text-3">
             Preise werden von den Anbietenden selbst festgelegt und gelten für Zeit und Begleitung.
             NOIRA erhält davon keinen Anteil und ist an der Abrechnung nicht beteiligt.
           </p>
@@ -340,7 +340,7 @@ export default function ListingDetail() {
                 Nachricht schreiben
               </button>
 
-              <p className="text-center text-xs leading-relaxed text-muted-foreground/70">
+              <p className="text-center text-xs leading-relaxed text-text-3">
                 Bitte erwähnen Sie beim Kontakt, dass Sie das Inserat auf NOIRA gesehen haben.
               </p>
 
@@ -349,7 +349,7 @@ export default function ListingDetail() {
               <ul className="space-y-2.5 text-xs text-muted-foreground">
                 <li className="flex items-center gap-2">
                   <BadgeCheck
-                    className={cn("h-4 w-4", listing.verified ? "text-verified" : "text-muted-foreground/40")}
+                    className={cn("h-4 w-4", listing.verified ? "text-verified" : "text-text-3")}
                     strokeWidth={1.6}
                   />
                   {listing.verified

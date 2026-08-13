@@ -53,7 +53,7 @@ export default function Clubs() {
                 </div>
 
                 <p className="mt-2 text-sm text-muted-foreground">{h.tagline}</p>
-                <p className="mt-3 line-clamp-2 max-w-2xl text-sm leading-relaxed text-muted-foreground/80">
+                <p className="mt-3 line-clamp-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
                   {h.about}
                 </p>
 

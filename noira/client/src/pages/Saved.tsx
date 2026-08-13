@@ -48,7 +48,7 @@ export default function Saved() {
 
       {items.length === 0 ? (
         <div className="card-noir flex flex-col items-center px-6 py-20 text-center">
-          <Heart className="mb-5 h-8 w-8 text-muted-foreground/50" strokeWidth={1.3} />
+          <Heart className="mb-5 h-8 w-8 text-text-3" strokeWidth={1.3} />
           <p className="display mb-3 text-3xl">{t("saved.emptyTitle")}</p>
           <p className="mb-7 max-w-sm text-sm leading-relaxed text-muted-foreground">
 {t("saved.emptyText")}
@@ -76,7 +76,7 @@ export default function Saved() {
         </>
       )}
 
-      <p className="mt-10 text-xs leading-relaxed text-muted-foreground/70">
+      <p className="mt-10 text-xs leading-relaxed text-text-3">
 {t("saved.note")}
       </p>
     </div>

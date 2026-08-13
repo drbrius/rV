@@ -12,7 +12,7 @@ import { toast } from "sonner";
 import { Link, useLocation } from "wouter";
 
 const inputClass =
-  "w-full rounded-lg border border-line bg-surface-2/60 py-3 pr-4 pl-11 text-sm placeholder:text-muted-foreground/60 focus:border-gold/60 focus:outline-none";
+  "w-full rounded-lg border border-line bg-surface-2/60 py-3 pr-4 pl-11 text-sm placeholder:text-text-3 focus:border-gold/60 focus:outline-none";
 
 export default function Login() {
   const [location] = useLocation();
@@ -131,7 +131,7 @@ export default function Login() {
           )}
         </div>
 
-        <p className="mt-7 text-center text-xs leading-relaxed text-muted-foreground/70">
+        <p className="mt-7 text-center text-xs leading-relaxed text-text-3">
           Ein Konto brauchen nur Inserierende und wer Nachrichten empfangen möchte. Suchen und
           Kontaktieren funktioniert ohne Anmeldung — und ohne dass wir wissen, wer Sie sind.
         </p>

@@ -13,6 +13,7 @@
     "check:pages": "node scripts/check-pages.mjs",
     "check:server": "tsc -p server/tsconfig.json",
     "dev": "vite --host",
+    "export:doc": "node scripts/export-doc.mjs",
     "format": "prettier --write .",
     "preview": "vite preview --host",
     "seed": "tsx server/src/seed.ts",

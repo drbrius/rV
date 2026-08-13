@@ -121,10 +121,17 @@ freigegebene Foto.
 | `/inserat/:slug` | Galerie, Beschrieb, Services, Tarife, Sicherheitshinweis, mitlaufende Kontaktkarte (Nummer erst auf Klick), ähnliche Inserate |
 | `/clubs` | Häuser und Studios im Breitformat — Öffnungszeiten und Eintritt statt Portrait |
 | `/werben` | Ablauf in drei Schritten, Preistabelle mit Laufzeit-Umschalter, Zahlungsarten |
+| `/inserat-erfassen` | Vierstufiger Editor mit **Live-Vorschau der Trefferkarte**, Autosave im Browser, Foto-Upload und Verifizierung mit Tages-Codewort |
 | `/kasse` | Einspaltige Kasse mit mitlaufender Übersicht; Karte / TWINT / Krypto |
 | `/sicherheit` | Hausordnung, echte Anlaufstellen (117, ACT212, FIZ, ProCoRe), Meldeformular, Tipps für beide Seiten |
 | `/login`, `/registrieren` | Konto nur für Inserierende — Suchen funktioniert ohne Anmeldung |
 | `/agb`, `/datenschutz`, `/impressum` | Entwurfstexte (DSG/DSGVO, UWG) |
+
+**Der Weg für Anbietende ist geschlossen:** `/werben` → Paket wählen →
+`/inserat-erfassen` → `/kasse`. Paket und Laufzeit werden dabei als
+Query-Parameter durchgereicht, der Entwurf liegt in `localStorage` — wer
+unterbrochen wird, verliert nichts. Vorwärts kommt nur, wer den aktuellen
+Schritt vollständig ausgefüllt hat; zurück geht immer.
 
 **Alterskontrolle:** `AgeGate.tsx` blockiert die Seite vor allem anderen; die
 Bestätigung gilt 90 Tage (localStorage). Meta-Tag `rating=adult` für Jugendschutzfilter.
@@ -160,8 +167,10 @@ Reines Frontend; alle Daten liegen als Demo-Datensatz in `client/src/data/`.
 Für den Betrieb fehlen:
 
 - API und Datenbank (`GET /api/listings`, `/api/stats`), Volltextsuche, Paginierung
-- Konten, Sitzungen, Inserats-Editor mit Bild-Upload und Moderationsschlange
-- Verifizierungs-Workflow inkl. verschlüsselter Ablage und 90-Tage-Löschfrist
+- Konten, Sitzungen und die Moderationsschlange hinter dem Editor
+- Verifizierung serverseitig: Codewort pro Konto, verschlüsselte Ablage,
+  90-Tage-Löschfrist (die Oberfläche dafür steht, die Dateien verlassen den
+  Browser noch nicht)
 - Anbindung der Zahlungsanbieter samt Webhooks und Belegversand
 - Übersetzungen FR / IT / EN (Umschalter ist angelegt, Inhalte sind Deutsch)
 - Rechtstexte anwaltlich prüfen; kantonale Melde- und Bewilligungspflichten abbilden

@@ -225,7 +225,7 @@ export default function Checkout() {
 
           <div className="flex flex-col gap-3 sm:flex-row">
             <button
-              onClick={() => navigate("/werben")}
+              onClick={() => navigate("/inserat-erfassen")}
               className="flex-1 rounded-full bg-gold px-6 py-3.5 text-sm font-semibold text-ink transition hover:brightness-110">
               Inserat jetzt erfassen
             </button>

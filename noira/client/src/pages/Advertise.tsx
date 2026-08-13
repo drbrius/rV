@@ -62,7 +62,8 @@ export default function Advertise() {
   const [, navigate] = useLocation();
   const [duration, setDuration] = useState<7 | 30 | 90>(30);
 
-  const goToCheckout = (plan: PlanId) => navigate(`/kasse?paket=${plan}&laufzeit=${duration}`);
+  const goToCheckout = (plan: PlanId) =>
+    navigate(`/inserat-erfassen?paket=${plan}&laufzeit=${duration}`);
 
   return (
     <>

@@ -13,24 +13,44 @@ import { cn } from "@/lib/utils";
 import { BadgeCheck, Camera, MapPin, Play } from "lucide-react";
 import { Link } from "wouter";
 
-export function ListingCard({ listing, priority }: { listing: Listing; priority?: boolean }) {
+export function ListingCard({
+  listing,
+  priority,
+  imageUrl,
+  asPreview,
+}: {
+  listing: Listing;
+  priority?: boolean;
+  /** Echtes Bild statt Platzhalter — genutzt von der Live-Vorschau im Editor */
+  imageUrl?: string;
+  /** Vorschau ist nicht anklickbar: im Editor führt der Klick sonst aus dem Formular */
+  asPreview?: boolean;
+}) {
   const canton = CANTONS.find((c) => c.code === listing.canton);
   const category = CATEGORIES.find((c) => c.id === listing.category);
   const fresh = isNew(listing.published);
 
-  return (
-    <Link
-      href={`/inserat/${listing.slug}`}
-      className={cn(
-        "card-noir group relative flex flex-col overflow-hidden",
-        listing.premium && "ring-1 ring-gold/25",
-      )}>
+  const shellClass = cn(
+    "card-noir group relative flex flex-col overflow-hidden",
+    listing.premium && "ring-1 ring-gold/25",
+  );
+
+  const body = (
+    <>
       <div className="relative aspect-[3/4] overflow-hidden">
-        <Portrait
-          name={listing.name}
-          motif={listing.motif}
-          className="h-full w-full transition-transform duration-700 group-hover:scale-[1.04]"
-        />
+        {imageUrl ? (
+          <img
+            src={imageUrl}
+            alt=""
+            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+          />
+        ) : (
+          <Portrait
+            name={listing.name}
+            motif={listing.motif}
+            className="h-full w-full transition-transform duration-700 group-hover:scale-[1.04]"
+          />
+        )}
 
         {/* Badges oben links */}
         <div className="absolute top-3 left-3 flex flex-col items-start gap-1.5">
@@ -56,9 +76,11 @@ export function ListingCard({ listing, priority }: { listing: Listing; priority?
               <span className="hidden sm:inline">Video</span>
             </span>
           )}
-          <span className="flex items-center gap-1 rounded-full bg-black/55 px-2 py-1 text-[0.625rem] text-white backdrop-blur-sm">
-            <Camera className="h-2.5 w-2.5" strokeWidth={2} /> {listing.photos}
-          </span>
+          {listing.photos > 0 && (
+            <span className="flex items-center gap-1 rounded-full bg-black/55 px-2 py-1 text-[0.625rem] text-white backdrop-blur-sm">
+              <Camera className="h-2.5 w-2.5" strokeWidth={2} /> {listing.photos}
+            </span>
+          )}
         </div>
 
         {/* Online-Status unten links */}
@@ -113,6 +135,16 @@ export function ListingCard({ listing, priority }: { listing: Listing; priority?
           </span>
         </div>
       </div>
+    </>
+  );
+
+  // Die Vorschau im Editor darf nicht navigieren — sonst verlässt man
+  // beim Draufklicken das eigene Formular.
+  return asPreview ? (
+    <div className={shellClass}>{body}</div>
+  ) : (
+    <Link href={`/inserat/${listing.slug}`} className={shellClass}>
+      {body}
     </Link>
   );
 }

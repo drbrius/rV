@@ -9,6 +9,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Advertise from "@/pages/Advertise";
 import Checkout from "@/pages/Checkout";
 import Clubs from "@/pages/Clubs";
+import Compose from "@/pages/Compose";
 import Home from "@/pages/Home";
 import Legal from "@/pages/Legal";
 import ListingDetail from "@/pages/ListingDetail";
@@ -26,6 +27,7 @@ function Router() {
       <Route path="/inserat/:slug" component={ListingDetail} />
       <Route path="/clubs" component={Clubs} />
       <Route path="/werben" component={Advertise} />
+      <Route path="/inserat-erfassen" component={Compose} />
       <Route path="/kasse" component={Checkout} />
       <Route path="/login" component={Login} />
       <Route path="/registrieren" component={Login} />

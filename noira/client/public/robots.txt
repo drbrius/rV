@@ -1,6 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /kasse
+Disallow: /inserat-erfassen
 Disallow: /login
 Disallow: /registrieren
 

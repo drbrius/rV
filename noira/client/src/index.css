@@ -223,17 +223,26 @@
    Kontrastprüfer zu finden, der die Seite allein misst.
 
    Darum: Grund und Textfarbe hier festnageln, zusätzlich am
-   Wurzelknoten der App. `color-scheme` sorgt dafür, dass auch
-   Scrollbalken und Formularelemente dem dunklen Thema folgen.
+   Wurzelknoten der App.
+
+   Die beiden !important sind Absicht und eng begrenzt. NOIRA hat
+   genau ein Thema; es gibt keine Regel, die hier gewinnen dürfte.
+   Zwei Fälle machen sie nötig:
+   - Ein Gastgeber, dessen Stil NACH dem unseren geladen wird,
+     gewinnt sonst allein über die Reihenfolge.
+   - Die Einbettungs-Laufzeit setzt bei expliziter Themenwahl
+     `color-scheme` INLINE auf <html>. Inline schlägt jede
+     Stilregel — sonst blieben Scrollbalken, Auswahlfelder und
+     Datumswähler hell in einer durchgehend dunklen Seite.
    ------------------------------------------------------------ */
 :root {
-  color-scheme: dark;
+  color-scheme: dark !important;
 }
 
 html,
 body,
 #root {
-  background-color: var(--noira-ink);
+  background-color: var(--noira-ink) !important;
   color: var(--noira-text-1);
 }
 

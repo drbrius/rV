@@ -9,7 +9,13 @@ pnpm install
 pnpm dev        # http://localhost:3000
 pnpm build      # dist/
 pnpm check      # tsc --noEmit
+pnpm bundle     # dist/noira-einzeldatei.html — alles in einer Datei
 ```
+
+`pnpm bundle` faltet JS, CSS, Schriften und Favicon in eine einzige HTML-Datei
+und schaltet die Routen auf Hash-Navigation um. Damit läuft die ganze Seite ohne
+Server — per Doppelklick, als Anhang oder als geteilte Vorschau. Für die
+reguläre Auslieferung bleibt `pnpm build` mit sauberen Pfaden.
 
 ---
 

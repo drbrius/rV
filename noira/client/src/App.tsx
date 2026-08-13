@@ -18,9 +18,10 @@ import Login from "@/pages/Login";
 import NotFound from "@/pages/NotFound";
 import Safety from "@/pages/Safety";
 import Saved from "@/pages/Saved";
-import { Route, Switch } from "wouter";
+import { Route, Router, Switch } from "wouter";
+import { useHashLocation } from "wouter/use-hash-location";
 
-function Router() {
+function Routes() {
   return (
     <Switch>
       <Route path="/" component={Home} />
@@ -42,14 +43,26 @@ function Router() {
   );
 }
 
+/* Für Vorschau-Builds, die als einzelne Datei ohne Server ausgeliefert
+   werden (Artifact, lokal geöffnete HTML): Ohne Server beantwortet
+   niemand /inserate, darum laufen die Routen dort über den Hash.
+   Die reguläre Auslieferung bleibt bei sauberen Pfaden. */
+const HASH_ROUTING = import.meta.env.VITE_HASH_ROUTING === "1";
+
 export default function App() {
+  const routes = <Routes />;
+
   return (
     <ErrorBoundary>
       <TooltipProvider delayDuration={200}>
         <Toaster position="top-center" />
-        <Layout>
-          <Router />
-        </Layout>
+        {HASH_ROUTING ? (
+          <Router hook={useHashLocation}>
+            <Layout>{routes}</Layout>
+          </Router>
+        ) : (
+          <Layout>{routes}</Layout>
+        )}
       </TooltipProvider>
     </ErrorBoundary>
   );

@@ -10,7 +10,9 @@ import type { Listing } from "@/data/listings";
 import { CANTONS, CATEGORIES } from "@/data/taxonomy";
 import { chf, isNew, relativeDay } from "@/lib/format";
 import { cn } from "@/lib/utils";
-import { BadgeCheck, Camera, MapPin, Play } from "lucide-react";
+import { toggleSaved, useSavedIds } from "@/hooks/useSaved";
+import { BadgeCheck, Camera, Heart, MapPin, Play } from "lucide-react";
+import { toast } from "sonner";
 import { Link } from "wouter";
 
 export function ListingCard({
@@ -29,9 +31,10 @@ export function ListingCard({
   const canton = CANTONS.find((c) => c.code === listing.canton);
   const category = CATEGORIES.find((c) => c.id === listing.category);
   const fresh = isNew(listing.published);
+  const saved = useSavedIds().includes(listing.id);
 
   const shellClass = cn(
-    "card-noir group relative flex flex-col overflow-hidden",
+    "card-noir flex flex-col overflow-hidden",
     listing.premium && "ring-1 ring-gold/25",
   );
 
@@ -140,12 +143,35 @@ export function ListingCard({
 
   // Die Vorschau im Editor darf nicht navigieren — sonst verlässt man
   // beim Draufklicken das eigene Formular.
-  return asPreview ? (
-    <div className={shellClass}>{body}</div>
-  ) : (
-    <Link href={`/inserat/${listing.slug}`} className={shellClass}>
-      {body}
-    </Link>
+  if (asPreview) return <div className={shellClass}>{body}</div>;
+
+  // Der Merken-Knopf liegt bewusst neben dem Link statt darin: ein
+  // <button> in einem <a> ist ungültiges Markup und verhält sich mit
+  // Tastatur und Screenreader unberechenbar.
+  return (
+    <div className="group relative">
+      <Link href={`/inserat/${listing.slug}`} className={shellClass}>
+        {body}
+      </Link>
+
+      <button
+        onClick={() => {
+          const now = toggleSaved(listing.id);
+          toast.success(now ? "Zur Merkliste hinzugefügt" : "Aus Merkliste entfernt");
+        }}
+        aria-pressed={saved}
+        aria-label={saved ? `${listing.name} nicht mehr merken` : `${listing.name} merken`}
+        className={cn(
+          /* Unterhalb der Medienzeile, damit sich nichts überlagert */
+          "absolute top-11 right-3 z-10 rounded-full bg-black/55 p-2 backdrop-blur-sm transition",
+          "hover:bg-black/75 focus-visible:opacity-100",
+          saved
+            ? "text-orchid opacity-100"
+            : "text-white opacity-0 group-hover:opacity-100 max-lg:opacity-100",
+        )}>
+        <Heart className={cn("h-3.5 w-3.5", saved && "fill-current")} strokeWidth={1.8} />
+      </button>
+    </div>
   );
 }
 

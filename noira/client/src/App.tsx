@@ -17,6 +17,7 @@ import Listings from "@/pages/Listings";
 import Login from "@/pages/Login";
 import NotFound from "@/pages/NotFound";
 import Safety from "@/pages/Safety";
+import Saved from "@/pages/Saved";
 import { Route, Switch } from "wouter";
 
 function Router() {
@@ -26,6 +27,7 @@ function Router() {
       <Route path="/inserate" component={Listings} />
       <Route path="/inserat/:slug" component={ListingDetail} />
       <Route path="/clubs" component={Clubs} />
+      <Route path="/merkliste" component={Saved} />
       <Route path="/werben" component={Advertise} />
       <Route path="/inserat-erfassen" component={Compose} />
       <Route path="/kasse" component={Checkout} />

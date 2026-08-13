@@ -120,6 +120,7 @@ freigegebene Foto.
 | `/inserate` | Trefferliste; **der gesamte Filterzustand liegt in der URL** (teilbar, zurück-navigierbar, indexierbar) |
 | `/inserat/:slug` | Galerie, Beschrieb, Services, Tarife, Sicherheitshinweis, mitlaufende Kontaktkarte (Nummer erst auf Klick), ähnliche Inserate |
 | `/clubs` | Häuser und Studios im Breitformat — Öffnungszeiten und Eintritt statt Portrait |
+| `/merkliste` | Gemerkte Inserate — im Browser gespeichert, ohne Konto und ohne Server |
 | `/werben` | Ablauf in drei Schritten, Preistabelle mit Laufzeit-Umschalter, Zahlungsarten |
 | `/inserat-erfassen` | Vierstufiger Editor mit **Live-Vorschau der Trefferkarte**, Autosave im Browser, Foto-Upload und Verifizierung mit Tages-Codewort |
 | `/kasse` | Einspaltige Kasse mit mitlaufender Übersicht; Karte / TWINT / Krypto |

@@ -8,6 +8,7 @@
 import { ListingCard } from "@/components/ListingCard";
 import { Portrait } from "@/components/Portrait";
 import { LISTINGS, listingBySlug } from "@/data/listings";
+import { toggleSaved, useSavedIds } from "@/hooks/useSaved";
 import { CANTONS, CATEGORIES } from "@/data/taxonomy";
 import { chf, compactNumber, relativeDay } from "@/lib/format";
 import { cn } from "@/lib/utils";
@@ -37,18 +38,18 @@ export default function ListingDetail() {
   const listing = listingBySlug(slug ?? "");
   const [active, setActive] = useState(0);
   const [phoneShown, setPhoneShown] = useState(false);
-  const [saved, setSaved] = useState(false);
+  const savedIds = useSavedIds();
 
   // Beim Wechsel auf ein anderes Inserat bleibt die Komponente montiert —
   // Galerie und aufgedeckte Nummer müssen darum von Hand zurückgesetzt werden.
   useEffect(() => {
     setActive(0);
     setPhoneShown(false);
-    setSaved(false);
   }, [slug]);
 
   if (!listing) return <NotFound />;
 
+  const saved = savedIds.includes(listing.id);
   const canton = CANTONS.find((c) => c.code === listing.canton);
   const category = CATEGORIES.find((c) => c.id === listing.category);
   // Die Demo hat keine echten Bilder — wir zeigen so viele Motive,
@@ -187,14 +188,15 @@ export default function ListingDetail() {
             <div className="flex gap-2">
               <button
                 onClick={() => {
-                  setSaved((s) => !s);
-                  toast.success(saved ? "Aus Merkliste entfernt" : "Zur Merkliste hinzugefügt");
+                  const now = toggleSaved(listing.id);
+                  toast.success(now ? "Zur Merkliste hinzugefügt" : "Aus Merkliste entfernt");
                 }}
                 className={cn(
                   "rounded-full border p-3 transition",
                   saved ? "border-orchid text-orchid" : "border-line hover:border-foreground/40",
                 )}
-                aria-label="Merken">
+                aria-label={saved ? "Nicht mehr merken" : "Merken"}
+                aria-pressed={saved}>
                 <Heart className={cn("h-4 w-4", saved && "fill-current")} strokeWidth={1.6} />
               </button>
               <button

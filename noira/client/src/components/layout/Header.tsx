@@ -7,8 +7,9 @@
 import { Phase } from "@/components/Phase";
 import { Wordmark } from "@/components/Wordmark";
 import { CATEGORIES, SITE_LOCALES } from "@/data/taxonomy";
+import { useSavedIds } from "@/hooks/useSaved";
 import { cn } from "@/lib/utils";
-import { ChevronDown, Globe, Menu, Search, UserRound, X } from "lucide-react";
+import { ChevronDown, Globe, Heart, Menu, Search, UserRound, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "wouter";
 
@@ -27,6 +28,7 @@ export function Header() {
   const [catOpen, setCatOpen] = useState(false);
   const [localeOpen, setLocaleOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const saved = useSavedIds();
   const catRef = useRef<HTMLDivElement>(null);
 
   // Der Lesefortschritt läuft als Lichtsaum unter der Navigation mit —
@@ -179,6 +181,21 @@ export function Header() {
             </div>
 
             <Link
+              href="/merkliste"
+              aria-label={`Merkliste, ${saved.length} Einträge`}
+              className="relative rounded-md p-2 text-muted-foreground transition hover:text-foreground">
+              <Heart
+                className={cn("h-4 w-4", saved.length > 0 && "fill-current text-orchid")}
+                strokeWidth={1.6}
+              />
+              {saved.length > 0 && (
+                <span className="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-orchid px-1 font-mono text-[0.5625rem] font-semibold text-white">
+                  {saved.length}
+                </span>
+              )}
+            </Link>
+
+            <Link
               href="/login"
               className="hidden items-center gap-1.5 rounded-md px-2.5 py-2 text-sm text-muted-foreground transition hover:text-foreground sm:flex">
               <UserRound className="h-4 w-4" strokeWidth={1.6} />
@@ -252,6 +269,16 @@ export function Header() {
                   {item.label}
                 </Link>
               ))}
+              <Link
+                href="/merkliste"
+                className="flex items-center justify-between border-b border-line py-3.5 text-lg text-foreground">
+                Merkliste
+                {saved.length > 0 && (
+                  <span className="rounded-full bg-orchid px-2 py-0.5 font-mono text-xs text-white">
+                    {saved.length}
+                  </span>
+                )}
+              </Link>
               <Link href="/login" className="border-b border-line py-3.5 text-lg text-foreground">
                 Anmelden
               </Link>

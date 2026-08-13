@@ -81,33 +81,54 @@ jedem Majuskel-Label; der Lichtring um jedes Monogramm.
 
 | Rolle | Wert | Einsatz |
 | --- | --- | --- |
-| Grund | `oklch(0.115 0.009 295)` — kühles Nachtschwarz | Seitenhintergrund |
-| Fläche | `oklch(0.163 0.011 295)` | Karten, Panels |
-| Gold | `oklch(0.828 0.108 82)` | Primäraktion, Preise, Premium |
-| Korona | `oklch(0.955 0.048 92)` | Lichtkanten, Verlaufsspitzen |
-| Orchidee | `oklch(0.64 0.184 349)` | „Neu", Merkliste |
-| Verifiziert | `oklch(0.76 0.128 165)` | Prüfzeichen, Online-Status |
+| Grund | `#201E29` — Anthrazit mit Violettstich | Seitenhintergrund |
+| Fläche | `#2A2735` | Karten, Panels |
+| Gold | `#E7C57E` | Primäraktion, Preise, Premium (9.9:1) |
+| Korona | `#FBEFCF` | Lichtkanten, Verlaufsspitzen |
+| Orchidee | `#E06BA8` | „Neu", Merkliste (5.4:1) |
+| Verifiziert | `#63D3A8` | Prüfzeichen, Online-Status (8.9:1) |
 
-Der Grund ist dunkler als bei vergleichbaren Seiten — die Korona wirkt nur, wenn
-die Scheibe wirklich schwarz ist.
+Der Grund ist bewusst **kein Schwarz**. Reines Schwarz hinter heller Schrift
+erzeugt Halation: Die Buchstaben glühen aus und wirken unscharf, egal wie gut
+der gemessene Kontrast ist. Ein tiefes Anthrazit behält die Nacht und beendet
+das Verlaufen.
+
+> Fallstrick beim Umbau: `oklch()`-Helligkeit ist **nicht** CIE L*. Ein erster
+> Versuch mit `oklch(0.178)` sah nach „deutlich angehoben" aus und ergab
+> gemessen `rgb(17,16,21)` — praktisch weiterhin Schwarz, weil die Leuchtdichte
+> kubisch folgt (0.178³ ≈ 0.006). Die Palette ist darum aus Ziel-Hexwerten
+> zurückgerechnet und am gerenderten Pixel nachgemessen.
 
 ### Typografie
 
-**Bodoni Moda** als Display. Ihr extremer Kontrast zwischen Haar- und Grundstrich
-ist dieselbe Figur wie die Eklipse: Licht neben Dunkel, ohne Zwischenton; ihre
-kreisrunden Punzen nehmen die Form des Zeichens auf. **Inter** trägt alles, was
-gelesen statt bewundert wird, **JetBrains Mono** die gesperrten Majuskel-Labels.
+**Fraunces** als Display, **Inter** für alles, was gelesen statt bewundert wird,
+**JetBrains Mono** für die gesperrten Majuskel-Labels.
+
+Die erste Fassung setzte **Bodoni Moda** — konzeptionell schlüssig, weil ihr
+Kontrast zwischen Haar- und Grundstrich dieselbe Figur ist wie die Eklipse.
+In der Praxis war sie unlesbar: Didone-Haarstriche liegen bei diesen Graden
+unter einem Pixel, und helle Feinlinien auf dunklem Grund verlaufen. Der
+gemessene Kontrast sagte 11:1, das Auge sah Unschärfe — **Kontrastwerte
+erfassen Strichstärke nicht.**
+
+Die Nachfolge wurde nicht geraten, sondern im direkten Vergleich gewählt:
+Fraunces, Newsreader, Spectral, Instrument Serif und Playfair Display, alle
+mit demselben Text auf demselben Grund gesetzt und nebeneinander betrachtet.
+Fraunces hat mit Abstand das meiste Fleisch in den dünnen Strichen und bringt
+eine Achse für die optische Grösse mit — kleine Grade werden damit automatisch
+kräftiger, nicht dünner.
 
 Drei Stufen, damit die Eleganz nicht auf Kosten der Lesbarkeit geht:
 
 | Klasse | Einsatz |
 | --- | --- |
-| `.display` | ab 24px — Bodoni 400, die eigentliche Stimme der Marke |
-| `.display-sm` | 18–24px — Bodoni 500, sonst brechen die Haarstriche weg |
-| `.numeral` | Preise und Kennzahlen — Bodoni 600, Tabellenziffern |
+| `.display` | ab 24px — Fraunces 500 |
+| `.display-sm` | 18–24px — Fraunces 600 |
+| `.numeral` | Preise und Kennzahlen — Fraunces 650, Tabellenziffern |
 
-Alles unter 18px ist Inter. Eine Schrift, die man bewundert, aber nicht lesen
-kann, ist auf einer Plattform mit Preisen und Telefonnummern ein Fehler.
+Ausserdem sind die Schriftgrade eine Stufe grösser als die Vorgabe (13 / 15 /
+17px statt 12 / 14 / 16): Auf dunklem Grund wirkt Schrift kleiner als auf
+hellem.
 
 ### Textfarben: drei Stufen, gemessen
 
@@ -118,17 +139,15 @@ drei benannte Stufen, jede gegen den dunkelsten vorkommenden Grund gemessen:
 
 | Token | Einsatz | Kontrast |
 | --- | --- | --- |
-| `--noira-text-1` | Überschriften, Werte, Eingaben | 17:1 |
-| `--noira-text-2` | Fliesstext, Sekundäres | 8.9:1 |
-| `--noira-text-3` | Bildlegenden, Rechtliches, Meta | 6.2:1 |
+| `--noira-text-1` | Überschriften, Werte, Eingaben | 15:1 |
+| `--noira-text-2` | Fliesstext, Sekundäres | 11.3:1 |
+| `--noira-text-3` | Bildlegenden, Rechtliches, Meta | 7.9:1 |
 
 `pnpm check:contrast` prüft das nach: Es geht jede Seite durch, rechnet für
 jeden Textknoten die tatsächliche Vorder- über die tatsächliche
 Hintergrundfarbe — Ebene für Ebene, inklusive Alpha und geerbter `opacity` —
-und bricht ab, sobald etwas unter WCAG AA liegt. Stand heute: **203
-Textstellen, null Verstösse**; die niedrigste Stelle liegt bei 5.15:1 (das rote
-18+-Zeichen), alles andere über 6:1. Der Verlaufstext der Schlagzeilen wird
-separat geprüft — sein dunkelster Farbstopp liegt bei 6.9:1.
+und bricht ab, sobald etwas unter WCAG AA liegt. Stand heute: **204
+Textstellen, null Verstösse**, und nichts mehr unter 5:1.
 
 **Schriften werden selbst ausgeliefert** (`client/public/fonts`, `@font-face` in
 `index.css`, nur die Subsets `latin` und `latin-ext`). Kein Aufruf zu

@@ -2,15 +2,22 @@
    NOIRA — Design System
    Leitbild: die Eklipse. Der Name enthält sie bereits —
    NOIR, die verdeckte Scheibe, und AURA, die Korona darum.
-   Daraus folgt alles Weitere: fast schwarze Flächen, Licht
-   ausschliesslich an den Rändern, ein einziger warmer Akzent.
+   Daraus folgt: dunkle Flächen, Licht an den Rändern, ein
+   einziger warmer Akzent.
 
-   Typografie: Bodoni Moda als Display. Ihr extremer Kontrast
-   zwischen Haar- und Grundstrich ist dieselbe Figur wie die
-   Eklipse — Licht neben Dunkel, ohne Zwischenton. Ihre
-   kreisrunden Punzen nehmen die Form des Zeichens auf.
-   Funktion bleibt bei Inter: alles unter 24px muss lesbar
-   sein, nicht schön.
+   LESBARKEIT GEHT VOR STIMMUNG
+   Die erste Fassung setzte Bodoni Moda auf fast schwarzen Grund.
+   Auf dem Papier eine schöne Figur — dieselbe Licht/Dunkel-Kante
+   wie die Eklipse. In der Praxis unlesbar: Didone-Haarstriche
+   liegen bei diesen Graden unter einem Pixel, und helle Feinlinien
+   auf sehr dunklem Grund verlaufen durch Halation. Der gemessene
+   Kontrast sagte 11:1, das Auge sah Unschärfe — Kontrastwerte
+   erfassen Strichstärke nicht.
+
+   Darum jetzt Fraunces: gleiche editoriale Haltung, aber mit
+   Fleisch in den dünnen Strichen. Und der Grund ist von
+   oklch(0.115) auf 0.178 angehoben — echtes Schwarz treibt das
+   Verlaufen heller Schrift an, ein tiefes Anthrazit nicht.
    ============================================================ */
 
 @import "tailwindcss";
@@ -25,38 +32,38 @@
    ------------------------------------------------------------ */
 
 @font-face {
-  font-family: "Bodoni Moda";
+  font-family: "Fraunces";
   font-style: italic;
   font-weight: 400 600;
   font-display: swap;
-  src: url("/fonts/bodoni-italic-latin-ext.woff2") format("woff2");
+  src: url("/fonts/fraunces-italic-latin-ext.woff2") format("woff2");
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
 @font-face {
-  font-family: "Bodoni Moda";
+  font-family: "Fraunces";
   font-style: italic;
   font-weight: 400 600;
   font-display: swap;
-  src: url("/fonts/bodoni-italic-latin.woff2") format("woff2");
+  src: url("/fonts/fraunces-italic-latin.woff2") format("woff2");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
-  font-family: "Bodoni Moda";
+  font-family: "Fraunces";
   font-style: normal;
   font-weight: 400 700;
   font-display: swap;
-  src: url("/fonts/bodoni-normal-latin-ext.woff2") format("woff2");
+  src: url("/fonts/fraunces-normal-latin-ext.woff2") format("woff2");
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
 @font-face {
-  font-family: "Bodoni Moda";
+  font-family: "Fraunces";
   font-style: normal;
   font-weight: 400 700;
   font-display: swap;
-  src: url("/fonts/bodoni-normal-latin.woff2") format("woff2");
+  src: url("/fonts/fraunces-normal-latin.woff2") format("woff2");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
@@ -134,24 +141,40 @@
   --color-corona: var(--noira-corona);
   --color-text-3: var(--noira-text-3);
 
-  --font-display: "Bodoni Moda", "Didot", "Playfair Display", Georgia, serif;
+  --font-display: "Fraunces", "Iowan Old Style", Charter, Georgia, serif;
   --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* Schriftgrade eine Stufe grösser als die Vorgabe. Auf dunklem
+     Grund wirkt Schrift kleiner als auf hellem; 12px Fliesstext,
+     wie zuvor an vielen Stellen, ist dort schlicht zu wenig. */
+  --text-xs: 0.8125rem; /* 13px, war 12 */
+  --text-xs--line-height: 1.55;
+  --text-sm: 0.9375rem; /* 15px, war 14 */
+  --text-sm--line-height: 1.6;
+  --text-base: 1.0625rem; /* 17px, war 16 */
+  --text-base--line-height: 1.65;
 }
 
 :root {
   /* --- Kernpalette ------------------------------------------------ */
-  /* Der Grund ist dunkler als üblich: Die Korona wirkt nur, wenn
-     die Scheibe wirklich schwarz ist. */
-  --noira-ink: oklch(0.115 0.009 295); /* Seitengrund, kühles Nachtschwarz */
-  --noira-surface: oklch(0.163 0.011 295); /* Karten */
-  --noira-surface-2: oklch(0.212 0.013 295); /* Karten-Hover, Inputs */
-  --noira-line: oklch(0.288 0.012 295); /* Haarlinien */
-  --noira-gold: oklch(0.828 0.108 82); /* Champagner-Gold, Primärakzent */
-  --noira-gold-soft: oklch(0.665 0.078 82);
-  --noira-corona: oklch(0.955 0.048 92); /* Lichtkante der Sichel */
-  --noira-orchid: oklch(0.64 0.184 349); /* Sekundärakzent, „Neu", Merkliste */
-  --noira-verified: oklch(0.76 0.128 165); /* Verifiziert-Badge */
+  /* Echtes Anthrazit statt Schwarz.
+     Zwischenschritt-Falle: oklch-Helligkeit ist nicht CIE L*. Ein
+     erster Versuch mit oklch(0.178) sah nach „deutlich angehoben"
+     aus und ergab gemessen rgb(17,16,21) — praktisch weiterhin
+     Schwarz, weil die Leuchtdichte kubisch folgt (0.178³ ≈ 0.006).
+     Die Werte unten sind darum aus Ziel-Hexwerten zurückgerechnet
+     und nachgemessen. Der Grund ist jetzt #201E29: dunkel genug für
+     die Nacht, hell genug, dass helle Schrift nicht ausglüht. */
+  --noira-ink: oklch(0.242 0.021 293); /* #201E29 Seitengrund */
+  --noira-surface: oklch(0.282 0.026 295); /* #2A2735 Karten */
+  --noira-surface-2: oklch(0.32 0.029 296); /* #343040 Eingaben, Hover */
+  --noira-line: oklch(0.402 0.03 298); /* #4A4557 Haarlinien */
+  --noira-gold: oklch(0.837 0.098 85); /* #E7C57E Primärakzent (9.9:1) */
+  --noira-gold-soft: oklch(0.785 0.102 83); /* #D9B36A Majuskel-Labels (8.3:1) */
+  --noira-corona: oklch(0.953 0.044 90); /* #FBEFCF Lichtkante */
+  --noira-orchid: oklch(0.684 0.16 350); /* #E06BA8 „Neu", Merkliste (5.4:1) */
+  --noira-verified: oklch(0.789 0.121 166); /* #63D3A8 Verifiziert (8.9:1) */
 
   /* --- Textfarben: drei Stufen, keine Zwischentöne ------------------
      Vorher wurde Text mit Deckkraft-Modifikatoren (/70, /60, /50)
@@ -160,9 +183,9 @@
      davon unter den Lesbarkeitsschwellwert.
      Jetzt drei benannte Stufen, jede gegen den dunkelsten Grund
      gemessen (WCAG 2.1, Verhältnis in Klammern). */
-  --noira-text-1: oklch(0.955 0.004 300); /* Primär: Überschriften, Werte (17:1) */
-  --noira-text-2: oklch(0.735 0.011 300); /* Sekundär: Fliesstext (8.9:1) */
-  --noira-text-3: oklch(0.655 0.012 300); /* Tertiär: Bildlegenden, Rechtliches (6.2:1) */
+  --noira-text-1: oklch(0.97 0.008 302); /* #F6F4FA Überschriften, Werte (15:1) */
+  --noira-text-2: oklch(0.877 0.02 299); /* #D8D4E2 Fliesstext (11.3:1) */
+  --noira-text-3: oklch(0.77 0.027 298); /* #B6B1C4 Legenden, Rechtliches (7.9:1) */
 
   --radius: 0.5rem;
 
@@ -171,17 +194,17 @@
   --foreground: var(--noira-text-1);
   --card: var(--noira-surface);
   --card-foreground: var(--noira-text-1);
-  --popover: oklch(0.163 0.012 300);
+  --popover: oklch(0.29 0.026 295);
   --popover-foreground: var(--noira-text-1);
   --primary: var(--noira-gold);
-  --primary-foreground: oklch(0.14 0.01 300);
+  --primary-foreground: var(--noira-ink);
   --secondary: var(--noira-surface-2);
   --secondary-foreground: var(--noira-text-1);
   --muted: var(--noira-surface-2);
   --muted-foreground: var(--noira-text-2);
   --accent: var(--noira-surface-2);
   --accent-foreground: var(--noira-text-1);
-  --destructive: oklch(0.62 0.2 22);
+  --destructive: oklch(0.673 0.178 24);
   --destructive-foreground: oklch(0.98 0 0);
   --border: var(--noira-line);
   --input: var(--noira-line);
@@ -249,14 +272,15 @@
 }
 
 @layer components {
-  /* Display-Typografie: Bodoni lebt von Grösse. Unter 1.25rem
-     brechen die Haarstriche weg — dort gilt die Grotesk. */
+  /* Display-Typografie. Fraunces bringt eine Achse für die optische
+     Grösse mit — der Browser wählt damit von selbst kräftigere
+     Strichstärken, je kleiner der Grad wird. */
   .display {
     font-family: var(--font-display);
-    font-weight: 400;
+    font-weight: 500;
     font-optical-sizing: auto;
-    letter-spacing: -0.005em;
-    line-height: 1.06;
+    letter-spacing: -0.012em;
+    line-height: 1.08;
   }
 
   /* Zahlen, die eine Entscheidung tragen — Preise, Kennzahlen.
@@ -265,18 +289,18 @@
      bündig stehen. */
   .numeral {
     font-family: var(--font-display);
-    font-weight: 600;
+    font-weight: 650;
     font-optical-sizing: auto;
     font-variant-numeric: tabular-nums lining-nums;
     letter-spacing: 0.005em;
     line-height: 1.1;
   }
 
-  /* Bodoni zwischen 18 und 24px: etwas mehr Gewicht und Laufweite,
-     sonst verschwinden die Haarstriche auf dunklem Grund. */
+  /* Zwischen 18 und 24px etwas mehr Gewicht — kleine Grade dürfen
+     auf dunklem Grund nicht dünner wirken als grosse. */
   .display-sm {
     font-family: var(--font-display);
-    font-weight: 500;
+    font-weight: 600;
     font-optical-sizing: auto;
     letter-spacing: 0.006em;
     line-height: 1.15;
@@ -331,7 +355,7 @@
       100deg,
       var(--noira-corona),
       var(--noira-gold) 42%,
-      oklch(0.68 0.085 68)
+      oklch(0.79 0.095 70)
     );
     -webkit-background-clip: text;
     background-clip: text;

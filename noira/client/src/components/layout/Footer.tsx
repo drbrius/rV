@@ -17,7 +17,7 @@ export function Footer() {
   const { t, canton: cantonName } = useI18n();
 
   return (
-    <footer className="mt-24 border-t border-line bg-[oklch(0.095_0.008_295)]">
+    <footer className="mt-24 border-t border-line bg-[oklch(0.216_0.020_294)]">
       <div className="container-noira py-14">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-5">
           <div className="lg:col-span-2">

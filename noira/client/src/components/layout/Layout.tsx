@@ -15,7 +15,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
   }, [location]);
 
   return (
-    <div className="flex min-h-screen flex-col">
+    /* Die App malt ihren Grund selbst: In einer fremden Hülle darf
+         nichts vom Gastgeber durchscheinen. */
+    <div className="flex min-h-screen flex-col bg-background text-foreground">
       <AgeGate />
       <Header />
       <UntranslatedNotice />

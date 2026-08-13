@@ -11,6 +11,7 @@ pnpm build      # dist/
 pnpm check      # tsc --noEmit
 pnpm bundle     # dist/noira-einzeldatei.html — alles in einer Datei
 pnpm check:contrast   # WCAG-Kontrastprüfung gegen die laufende Vorschau
+pnpm check:embedded   # setzt die Seite ihren Grund auch in fremder Hülle durch?
 ```
 
 `pnpm bundle` faltet JS, CSS, Schriften und Favicon in eine einzige HTML-Datei
@@ -146,8 +147,23 @@ drei benannte Stufen, jede gegen den dunkelsten vorkommenden Grund gemessen:
 `pnpm check:contrast` prüft das nach: Es geht jede Seite durch, rechnet für
 jeden Textknoten die tatsächliche Vorder- über die tatsächliche
 Hintergrundfarbe — Ebene für Ebene, inklusive Alpha und geerbter `opacity` —
-und bricht ab, sobald etwas unter WCAG AA liegt. Stand heute: **204
-Textstellen, null Verstösse**, und nichts mehr unter 5:1.
+und bricht ab, sobald etwas unter WCAG AA liegt. Stand heute: **5322 Textknoten
+auf 16 Seiten, null Verstösse**, nichts unter 5.3:1.
+
+### Der Grund gehört der Seite, nicht dem Gastgeber
+
+Der hartnäckigste Lesbarkeitsfehler war keiner der Seite selbst. Eingebettet in
+eine fremde Hülle — Vorschau, Artifact, CMS — setzt der Gastgeber sein eigenes
+`body { background: #fff }`. Und weil **ungelayertes CSS jede Regel in einem
+`@layer` schlägt**, unabhängig von Spezifität und Reihenfolge, gewinnt diese
+eine Zeile gegen alles, was Tailwind in `@layer base` legt. Ergebnis: die
+Farben eines dunklen Themas auf weisser Fläche.
+
+Für sich gemessen war die Seite dabei tadellos — der Fehler entsteht erst durch
+die Umgebung. Darum stehen Grund und Textfarbe jetzt **ausserhalb** jedes
+Layers, zusätzlich auf `#root`, und die App malt ihren Grund im eigenen
+Wurzelknoten (`Layout`). `pnpm check:embedded` baut die feindliche Hülle nach
+und schlägt Alarm, wenn der Gastgeber durchscheint.
 
 **Schriften werden selbst ausgeliefert** (`client/public/fonts`, `@font-face` in
 `index.css`, nur die Subsets `latin` und `latin-ext`). Kein Aufruf zu

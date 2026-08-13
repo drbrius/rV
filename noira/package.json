@@ -8,6 +8,7 @@
     "bundle": "node scripts/bundle-single-file.mjs",
     "check": "tsc --noEmit",
     "check:contrast": "node scripts/check-contrast.mjs",
+    "check:embedded": "node scripts/check-embedded.mjs",
     "dev": "vite --host",
     "format": "prettier --write .",
     "preview": "vite preview --host",

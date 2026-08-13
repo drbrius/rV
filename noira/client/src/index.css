@@ -15,9 +15,9 @@
    erfassen Strichstärke nicht.
 
    Darum jetzt Fraunces: gleiche editoriale Haltung, aber mit
-   Fleisch in den dünnen Strichen. Und der Grund ist von
-   oklch(0.115) auf 0.178 angehoben — echtes Schwarz treibt das
-   Verlaufen heller Schrift an, ein tiefes Anthrazit nicht.
+   Fleisch in den dünnen Strichen. Und der Grund ist von fast
+   Schwarz auf ein echtes Anthrazit (#201E29) angehoben — reines
+   Schwarz treibt das Verlaufen heller Schrift an, Anthrazit nicht.
    ============================================================ */
 
 @import "tailwindcss";
@@ -211,6 +211,36 @@
   --ring: var(--noira-gold);
 }
 
+/* ------------------------------------------------------------
+   Der Grund wird bewusst AUSSERHALB von @layer gesetzt.
+
+   Ungelayertes CSS schlägt jede Regel in einem Layer — unabhängig
+   von Spezifität und Reihenfolge. Steht die App in einer fremden
+   Hülle (eingebettete Vorschau, Artifact, CMS), setzt der Gastgeber
+   sein eigenes `body { background: #fff }` ungelayert und gewinnt
+   gegen alles in `@layer base`. Das Ergebnis: helle Fläche unter
+   den Farben eines dunklen Themas — unlesbar, und von keinem
+   Kontrastprüfer zu finden, der die Seite allein misst.
+
+   Darum: Grund und Textfarbe hier festnageln, zusätzlich am
+   Wurzelknoten der App. `color-scheme` sorgt dafür, dass auch
+   Scrollbalken und Formularelemente dem dunklen Thema folgen.
+   ------------------------------------------------------------ */
+:root {
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  background-color: var(--noira-ink);
+  color: var(--noira-text-1);
+}
+
+#root {
+  min-height: 100vh;
+}
+
 @layer base {
   * {
     border-color: var(--border);
@@ -222,8 +252,6 @@
   }
 
   body {
-    background-color: var(--background);
-    color: var(--foreground);
     font-family: var(--font-sans);
     font-synthesis-weight: none;
     -webkit-font-smoothing: antialiased;

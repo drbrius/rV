@@ -148,10 +148,15 @@ const browser = await chromium.launch(
 );
 const page = await (await browser.newContext({ viewport: { width: 1440, height: 1000 } })).newPage();
 const all = new Map();
+let untersucht = 0; // jeder einzelne Textknoten, auch mehrfach vorkommende
 
 const collect = async (label) => {
-  for (const f of await page.evaluate(audit)) {
-    const key = `${f.cls}|${f.size}|${f.ratio}`;
+  const found = await page.evaluate(audit);
+  untersucht += found.length;
+  for (const f of found) {
+    // Seite gehört in den Schlüssel: dieselbe Klasse kann auf einer
+    // anderen Seite auf einem anderen Grund liegen.
+    const key = `${label}|${f.cls}|${f.size}|${f.ratio}`;
     if (!all.has(key)) all.set(key, { ...f, page: label });
   }
 };
@@ -173,7 +178,9 @@ const found = [...all.values()].sort((a, b) => a.ratio - b.ratio);
 const failing = found.filter((f) => (LIMIT ? f.ratio < LIMIT : f.ratio < f.need));
 
 console.log(
-  `\n${found.length} Textstellen geprüft — ${failing.length} unter ` +
+  `\n${untersucht} Textknoten untersucht auf ${PAGES.length + 1} Seiten ` +
+    `(${found.length} verschiedene Kombinationen aus Klasse, Grad und Grund)\n` +
+    `${failing.length} unter ` +
     (LIMIT ? `${LIMIT}:1` : "dem WCAG-AA-Schwellwert"),
 );
 for (const f of failing) {

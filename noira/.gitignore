@@ -1,4 +1,10 @@
 node_modules
 dist
+dist-server
 .DS_Store
 *.local
+
+# Laufzeitdaten des Servers: Datenbank, hochgeladene Bilder,
+# verschlüsselte Ausweise. Nichts davon gehört in die Versionierung.
+var/
+.env

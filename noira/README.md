@@ -1,18 +1,31 @@
 # NOIRA — noira.ch
 
-Schweizer Inserateplattform für erotische Dienstleistungen. Vollständiges Frontend
-(React 19 · TypeScript · Tailwind 4 · Vite), inklusive Suche, Filter, Profilseiten,
-Inseratepakete und Kasse mit Kreditkarte, TWINT und Krypto.
+Schweizer Inserateplattform für erotische Dienstleistungen. Frontend
+(React 19 · TypeScript · Tailwind 4 · Vite) und Backend (Fastify 5 · SQLite über
+`node:sqlite`): Suche, Filter, Profilseiten, Inserate-Editor, Moderation,
+Verifizierung mit Löschfrist, Inseratepakete und Kasse mit Kreditkarte, TWINT
+und Krypto.
 
 ```bash
 pnpm install
+
+# Oberfläche
 pnpm dev        # http://localhost:3000
 pnpm build      # dist/
 pnpm check      # tsc --noEmit
 pnpm bundle     # dist/noira-einzeldatei.html — alles in einer Datei
 pnpm check:contrast   # WCAG-Kontrastprüfung gegen die laufende Vorschau
 pnpm check:embedded   # setzt die Seite ihren Grund auch in fremder Hülle durch?
+
+# Server
+pnpm seed          # Demo-Datenbestand: 28 Inserate, Bilder, 3 Konten
+pnpm server        # http://localhost:4000
+pnpm test          # 55 Tests
+pnpm check:server  # Typprüfung des Servers
 ```
+
+Einzelheiten zum Backend — Endpunkte, Regeln, Datenmodell, Weg nach
+PostgreSQL — stehen in [`server/README.md`](server/README.md).
 
 `pnpm bundle` faltet JS, CSS, Schriften und Favicon in eine einzige HTML-Datei
 und schaltet die Routen auf Hash-Navigation um. Damit läuft die ganze Seite ohne
@@ -258,14 +271,20 @@ Buchungstext auf allen Abrechnungen: `NM DIGITAL GMBH, ZUERICH`.
 
 ## 7. Was noch fehlt
 
-Reines Frontend; alle Daten liegen als Demo-Datensatz in `client/src/data/`.
-Für den Betrieb fehlen:
+Frontend und Backend stehen; der Demo-Datenbestand liegt weiterhin in
+`client/src/data/` und wird von `pnpm seed` in die Datenbank übernommen.
 
-- API und Datenbank (`GET /api/listings`, `/api/stats`), Volltextsuche, Paginierung
-- Konten, Sitzungen und die Moderationsschlange hinter dem Editor
-- Verifizierung serverseitig: Codewort pro Konto, verschlüsselte Ablage,
-  90-Tage-Löschfrist (die Oberfläche dafür steht, die Dateien verlassen den
-  Browser noch nicht)
-- Anbindung der Zahlungsanbieter samt Webhooks und Belegversand
-- Fachübersetzung der langen Texte in FR / IT / EN (Oberfläche ist übersetzt)
-- Rechtstexte anwaltlich prüfen; kantonale Melde- und Bewilligungspflichten abbilden
+Für den Livegang fehlen:
+
+- **Anbindung der Zahlungsanbieter.** Die Schnittstelle steht (`PaymentProvider`,
+  zwei Methoden), angebunden ist bislang nur der Demo-Anbieter. Datatrans
+  (Karte, TWINT) und BTCPay (Krypto) passen dahinter.
+- **Belegversand und E-Mail** überhaupt: Registrierungsbestätigung, Passwort
+  zurücksetzen, Bescheid nach der Prüfung.
+- **PostgreSQL statt SQLite** — der Umbau ist im Schema und in `db/index.ts`
+  vorbereitet und dokumentiert.
+- **Bildverarbeitung**: Skalierung, WebP/AVIF-Varianten, Entfernen der
+  EXIF-Daten (Aufnahmeort!) beim Hochladen.
+- **Fachübersetzung** der langen Texte in FR / IT / EN (Oberfläche ist übersetzt).
+- **Rechtstexte anwaltlich prüfen**; kantonale Melde- und Bewilligungspflichten
+  abbilden.

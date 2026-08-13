@@ -16,6 +16,8 @@ pnpm check      # tsc --noEmit
 pnpm bundle     # dist/noira-einzeldatei.html — alles in einer Datei
 pnpm check:contrast   # WCAG-Kontrastprüfung gegen die laufende Vorschau
 pnpm check:embedded   # setzt die Seite ihren Grund auch in fremder Hülle durch?
+VITE_BASE=/rv/ pnpm build:pages   # Build für GitHub Pages (Unterpfad)
+VITE_BASE=/rv/ pnpm check:pages   # Probe gegen einen Pages-Nachbau
 
 # Server
 pnpm seed          # Demo-Datenbestand: 28 Inserate, Bilder, 3 Konten
@@ -295,11 +297,53 @@ HTML-Seite statt mit einem Fehler — der Client bekäme dann `<!doctype
 html>`, wo er JSON erwartet, und meldete einen Parser-Fehler statt
 „nicht gefunden".
 
+### Oberfläche auf GitHub Pages
+
+Zweiter Auslieferungsweg, unabhängig von Vercel. Der Ablauf
+`.github/workflows/pages.yml` baut, prüft und lädt hoch.
+
+**Einmalig von Hand:** *Settings → Pages → Source* auf **GitHub
+Actions** stellen. Kein Ablauf darf sich das selbst einschalten.
+
+Danach läuft die Auslieferung bei jedem Push auf `noira/**`; die
+Seite steht unter `https://<konto>.github.io/rv/`.
+
+Pages liefert Projektseiten unter `/<repo>/` aus statt an der
+Wurzel. Drei Stellen mussten das lernen:
+
+| | |
+| --- | --- |
+| **Dateipfade** | `VITE_BASE` setzt Vites `base`; Skript, Stilblatt, Favicon und die acht Schriftdateien bekommen das Stück vorangestellt — auch die `url()` in den `@font-face`. |
+| **Routen** | Der Router liest `import.meta.env.BASE_URL`. Ohne das sucht er nach `/rv/inserate` eine Route dieses Namens und findet nur `/inserate`. |
+| **Tiefe Links** | Pages kennt keine Rewrites. `404.html` ist eine Kopie von `index.html`: Pages liefert sie für unbekannte Pfade aus, die Anwendung startet, liest den Pfad und zeigt die richtige Seite. Der Statuscode bleibt 404 — daran lässt sich auf Pages nichts ändern. |
+
+`scripts/check-pages.mjs` widerlegt alle drei Fehler vor dem
+Hochladen: ein Dateiserver, der sich wie Pages verhält, dazu ein
+echter Browser, der Startseite, tiefen Link und einen Klick prüft.
+Der Ablauf führt dieselbe Probe aus.
+
+Zwei Unterschiede zu Vercel, die bleiben:
+
+- **Keine Kopfzeilen.** Pages setzt keine eigenen. Damit fehlen HSTS,
+  Permissions-Policy und vor allem das `Rating`-Feld für
+  Jugendschutzfilter. Im HTML steht `<meta name="rating"
+  content="adult">` — das ist, was ohne Serverkontrolle geht.
+- **Nicht indexierbar.** Der Pages-Build überschreibt `robots.txt`
+  mit `Disallow: /`. Unter `github.io` steht eine Vorschau; in den
+  Suchindex gehört sie nicht.
+
+> GitHub Pages ist laut Nutzungsbedingungen nicht für Seiten
+> gedacht, die vorrangig geschäftliche Abschlüsse abwickeln. Als
+> Entwurfsvorschau ist das unstrittig, als Betriebsplattform für
+> NOIRA wäre es der falsche Ort — dafür stehen Vercel und eine
+> eigene Domain bereit.
+
 ### Der Server läuft dort **nicht**
 
-Das Backend hält Zustand auf der Platte: SQLite-Datei, hochgeladene
-Fotos, verschlüsselte Ausweise. Vercels Funktionen haben ein
-flüchtiges Dateisystem — nur `/tmp`, je Instanz eigen, beim nächsten
+Weder auf Vercel noch auf Pages. Das Backend hält Zustand auf der
+Platte: SQLite-Datei, hochgeladene Fotos, verschlüsselte Ausweise.
+Pages ist ein reiner Dateiserver und führt überhaupt nichts aus;
+Vercels Funktionen haben ein flüchtiges Dateisystem — nur `/tmp`, je Instanz eigen, beim nächsten
 Kaltstart weg. Ein dorthin geschobener Server nähme Inserate
 entgegen, verlöre sie und meldete dabei keinen Fehler. Das ist
 schlimmer als gar kein Server.

@@ -1,0 +1,92 @@
+# ============================================================
+#  NOIRA auf GitHub Pages
+#
+#  Pages liefert Projektseiten unter /<repo>/ aus, nicht an der
+#  Wurzel. Darum wird mit VITE_BASE gebaut — Vite schreibt damit
+#  sämtliche Pfade um, und der Router zieht über BASE_URL nach.
+#  Der Wert kommt aus dem Repository-Namen, damit er beim
+#  Umbenennen nicht stillschweigend falsch wird.
+#
+#  Einmalig von Hand nötig, weil kein Ablauf das darf:
+#  Settings → Pages → Source auf „GitHub Actions" stellen.
+# ============================================================
+
+name: Pages
+
+on:
+  push:
+    branches:
+      - main
+      - claude/noira-website-design-bxurc2
+    paths:
+      - "noira/**"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Eine Auslieferung zur Zeit. Laufende nicht abbrechen: Eine halb
+# hochgeladene Seite ist schlimmer als eine, die einen Moment alt ist.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: noira
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: noira/package.json
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: noira/pnpm-lock.yaml
+
+      - run: pnpm install --frozen-lockfile
+
+      # Die Prüfungen laufen vor dem Bauen, nicht danach: Was den
+      # Typcheck oder die Tests reisst, soll gar nicht erst hochgehen.
+      - name: Typen und Tests
+        run: |
+          pnpm check
+          pnpm check:server
+          pnpm test
+
+      - name: Bauen
+        env:
+          VITE_BASE: /${{ github.event.repository.name }}/
+        run: pnpm build:pages
+
+      # Dieselbe Probe wie lokal: Startseite, tiefer Link über die
+      # 404-Umleitung, Wechsel innerhalb der Seite.
+      - name: Auslieferung prüfen
+        env:
+          VITE_BASE: /${{ github.event.repository.name }}/
+        run: |
+          pnpm exec playwright install --with-deps chromium
+          node scripts/check-pages.mjs
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: noira/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

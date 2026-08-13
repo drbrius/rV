@@ -5,10 +5,12 @@
   "license": "MIT",
   "scripts": {
     "build": "vite build",
+    "build:pages": "vite build && node scripts/prepare-pages.mjs",
     "bundle": "node scripts/bundle-single-file.mjs",
     "check": "tsc --noEmit",
     "check:contrast": "node scripts/check-contrast.mjs",
     "check:embedded": "node scripts/check-embedded.mjs",
+    "check:pages": "node scripts/check-pages.mjs",
     "check:server": "tsc -p server/tsconfig.json",
     "dev": "vite --host",
     "format": "prettier --write .",

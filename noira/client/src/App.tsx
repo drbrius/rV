@@ -49,6 +49,14 @@ function Routes() {
    Die reguläre Auslieferung bleibt bei sauberen Pfaden. */
 const HASH_ROUTING = import.meta.env.VITE_HASH_ROUTING === "1";
 
+/* Liegt die Seite nicht an der Wurzel, sondern unter /<repo>/ — so
+   liefert GitHub Pages Projektseiten aus —, muss der Router dieses
+   Stück kennen. Sonst sucht er nach `/rv/inserate` eine Route namens
+   `/rv/inserate` und findet nur `/inserate`. Vite füllt BASE_URL mit
+   demselben Wert, mit dem es auch die Dateipfade umgeschrieben hat;
+   an der Wurzel ist es "/" und der Ausdruck unten leer. */
+const BASE = import.meta.env.BASE_URL.replace(/\/+$/, "");
+
 export default function App() {
   const routes = <Routes />;
 
@@ -61,7 +69,9 @@ export default function App() {
             <Layout>{routes}</Layout>
           </Router>
         ) : (
-          <Layout>{routes}</Layout>
+          <Router base={BASE}>
+            <Layout>{routes}</Layout>
+          </Router>
         )}
       </TooltipProvider>
     </ErrorBoundary>

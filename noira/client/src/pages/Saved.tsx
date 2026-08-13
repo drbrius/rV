@@ -9,26 +9,28 @@
 import { ListingCard } from "@/components/ListingCard";
 import { LISTINGS } from "@/data/listings";
 import { clearSaved, useSavedIds } from "@/hooks/useSaved";
+import { useI18n } from "@/lib/i18n";
 import { ArrowRight, Heart, Info } from "lucide-react";
 import { toast } from "sonner";
 import { Link } from "wouter";
 
 export default function Saved() {
   const ids = useSavedIds();
+  const { t } = useI18n();
   // Reihenfolge der Merkliste beibehalten: zuletzt gemerkt zuoberst.
   const items = ids.map((id) => LISTINGS.find((l) => l.id === id)).filter((l) => l !== undefined);
 
   return (
     <div className="container-noira py-12">
-      <p className="eyebrow mb-3">Merkliste</p>
+      <p className="eyebrow mb-3">{t("saved.eyebrow")}</p>
       <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
         <h1 className="display text-4xl sm:text-5xl">
           {items.length > 0 ? (
             <>
-              {items.length} <span className="text-muted-foreground">gemerkt</span>
+              {items.length} <span className="text-muted-foreground">{t("saved.count")}</span>
             </>
           ) : (
-            "Noch nichts gemerkt"
+            t("saved.emptyHeading")
           )}
         </h1>
 
@@ -36,10 +38,10 @@ export default function Saved() {
           <button
             onClick={() => {
               clearSaved();
-              toast.success("Merkliste geleert");
+              toast.success(t("saved.cleared"));
             }}
             className="rounded-full border border-line px-5 py-2.5 text-sm text-muted-foreground transition hover:border-destructive/50 hover:text-destructive">
-            Liste leeren
+            {t("saved.clear")}
           </button>
         )}
       </div>
@@ -47,15 +49,14 @@ export default function Saved() {
       {items.length === 0 ? (
         <div className="card-noir flex flex-col items-center px-6 py-20 text-center">
           <Heart className="mb-5 h-8 w-8 text-muted-foreground/50" strokeWidth={1.3} />
-          <p className="display mb-3 text-3xl">Ihre Auswahl bleibt hier</p>
+          <p className="display mb-3 text-3xl">{t("saved.emptyTitle")}</p>
           <p className="mb-7 max-w-sm text-sm leading-relaxed text-muted-foreground">
-            Tippen Sie auf einer Karte oder einem Profil auf das Herz. Die Liste bleibt in diesem
-            Browser — ohne Konto, ohne dass wir sie sehen.
+{t("saved.emptyText")}
           </p>
           <Link
             href="/inserate"
             className="inline-flex items-center gap-2 rounded-full bg-gold px-6 py-3.5 text-sm font-semibold text-ink transition hover:brightness-110">
-            Inserate durchsuchen <ArrowRight className="h-4 w-4" strokeWidth={2} />
+            {t("saved.browse")} <ArrowRight className="h-4 w-4" strokeWidth={2} />
           </Link>
         </div>
       ) : (
@@ -69,17 +70,14 @@ export default function Saved() {
           {ids.length > items.length && (
             <p className="mt-8 flex items-start gap-2 rounded-xl border border-line bg-surface/60 p-4 text-xs leading-relaxed text-muted-foreground">
               <Info className="mt-px h-3.5 w-3.5 shrink-0 text-gold" strokeWidth={1.6} />
-              {ids.length - items.length} gemerkte Inserate sind nicht mehr verfügbar — sie sind
-              abgelaufen oder wurden entfernt.
+{t("saved.gone", { n: ids.length - items.length })}
             </p>
           )}
         </>
       )}
 
       <p className="mt-10 text-xs leading-relaxed text-muted-foreground/70">
-        Die Merkliste wird ausschliesslich in diesem Browser gespeichert. Sie geht verloren, wenn
-        Sie den Verlauf löschen oder das Gerät wechseln — dafür erfährt niemand, wen Sie sich
-        angesehen haben.
+{t("saved.note")}
       </p>
     </div>
   );

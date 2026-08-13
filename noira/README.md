@@ -112,7 +112,38 @@ Besuchenden nicht für Schriften an Dritte weiterreichen.
 Monogramm im Lichtring. In Produktion tritt an dieselbe Stelle das erste
 freigegebene Foto.
 
-## 4. Seiten und Informationsarchitektur
+## 4. Mehrsprachigkeit
+
+Die Schweiz hat vier Sprachregionen — eine Plattform, die nur Deutsch kann, ist
+im Tessin und in der Romandie kein Angebot. Der Umschalter im Kopf schaltet
+jetzt tatsächlich um: **DE · FR · IT · EN**.
+
+Umgesetzt ohne Bibliothek (`lib/i18n.ts`): ein flaches Wörterbuch, ein Store
+über `useSyncExternalStore`, ein `t()` mit `{platzhalter}`. i18next käme mit
+40 kB und Funktionen, die dieser Umfang nicht braucht. Die Wahl liegt in
+`localStorage`, `<html lang>` wird mitgeführt, und fehlt eine Übersetzung,
+greift Deutsch — nie ein roher Schlüssel.
+
+**Vollständig übersetzt** ist die Oberfläche, die auf jeder Seite mitläuft:
+Navigation, Fusszeile, Altersschranke, Inseratekarten, Suche und Filter,
+Merkliste, Fehlerseite. Dazu die Kategorien und die Kantonsnamen in ihrer
+jeweiligen Form (Genf / Genève / Ginevra / Geneva). Zeitangaben laufen über
+`Intl.RelativeTimeFormat` mit — „vor 2 Wochen" auf einer französischen Seite
+wäre schlicht falsch. Beträge bleiben im Schweizer Format mit Apostroph, das
+in allen vier Sprachregionen die gewohnte Schreibweise ist.
+
+**Noch nicht übersetzt** sind die langen redaktionellen Texte: Startseite,
+Inserieren, Kasse, Sicherheit, Recht. Diese Seiten tragen in den anderen
+Sprachen einen sichtbaren Hinweis statt einer maschinellen Ersetzung. Bei AGB
+und Sicherheitshinweisen einer Erotikplattform ist eine schiefe Formulierung
+ein Haftungsrisiko — das gehört zu einer Fachübersetzerin.
+
+Aus demselben Grund ist die Vorgabe **Deutsch statt Browsersprache**: Solange
+die Fliesstexte deutsch sind, bekäme ein englischer Browser sonst eine
+englische Hülle um deutschen Inhalt. Sobald die Texte übersetzt sind, gehört
+an die eine markierte Stelle in `i18n.ts` die Browsersprache.
+
+## 5. Seiten und Informationsarchitektur
 
 | Route | Inhalt |
 | --- | --- |
@@ -137,7 +168,7 @@ Schritt vollständig ausgefüllt hat; zurück geht immer.
 **Alterskontrolle:** `AgeGate.tsx` blockiert die Seite vor allem anderen; die
 Bestätigung gilt 90 Tage (localStorage). Meta-Tag `rating=adult` für Jugendschutzfilter.
 
-## 5. Zahlung
+## 6. Zahlung
 
 Preise: Basis CHF 29/79/189 · Plus 59/149/379 · Premium 119/299/749 (7/30/90 Tage),
 zzgl. 8,1 % MWST. Kein Abo — die Laufzeit endet automatisch.
@@ -162,7 +193,7 @@ Buchungstext auf allen Abrechnungen: `NM DIGITAL GMBH, ZUERICH`.
 > Livegang braucht es einen Acquirer mit ausdrücklicher Freigabe für MCC 7273 —
 > das ist der kritische Pfad des Projekts, nicht die Technik.
 
-## 6. Was noch fehlt
+## 7. Was noch fehlt
 
 Reines Frontend; alle Daten liegen als Demo-Datensatz in `client/src/data/`.
 Für den Betrieb fehlen:
@@ -173,5 +204,5 @@ Für den Betrieb fehlen:
   90-Tage-Löschfrist (die Oberfläche dafür steht, die Dateien verlassen den
   Browser noch nicht)
 - Anbindung der Zahlungsanbieter samt Webhooks und Belegversand
-- Übersetzungen FR / IT / EN (Umschalter ist angelegt, Inhalte sind Deutsch)
+- Fachübersetzung der langen Texte in FR / IT / EN (Oberfläche ist übersetzt)
 - Rechtstexte anwaltlich prüfen; kantonale Melde- und Bewilligungspflichten abbilden

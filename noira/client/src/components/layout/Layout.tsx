@@ -1,6 +1,7 @@
 import { AgeGate } from "@/components/AgeGate";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { UntranslatedNotice } from "@/components/UntranslatedNotice";
 import { useEffect } from "react";
 import { useLocation } from "wouter";
 
@@ -17,6 +18,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
     <div className="flex min-h-screen flex-col">
       <AgeGate />
       <Header />
+      <UntranslatedNotice />
       <main className="flex-1">{children}</main>
       <Footer />
     </div>

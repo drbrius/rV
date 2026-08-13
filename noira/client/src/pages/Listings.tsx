@@ -8,6 +8,7 @@ import { ListingCard } from "@/components/ListingCard";
 import { LISTINGS, type Listing } from "@/data/listings";
 import { CANTONS, CATEGORIES, LANGUAGES, SERVICES } from "@/data/taxonomy";
 import { chf } from "@/lib/format";
+import { useI18n, type Translate } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import { ChevronDown, SlidersHorizontal, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
@@ -15,12 +16,12 @@ import { useLocation, useSearch } from "wouter";
 
 type Sort = "relevanz" | "neu" | "preis-auf" | "preis-ab" | "premium";
 
-const SORTS: { id: Sort; label: string }[] = [
-  { id: "relevanz", label: "Empfohlen" },
-  { id: "neu", label: "Neueste zuerst" },
-  { id: "preis-auf", label: "Preis aufsteigend" },
-  { id: "preis-ab", label: "Preis absteigend" },
-  { id: "premium", label: "Nur Premium" },
+const SORTS: { id: Sort; key: string }[] = [
+  { id: "relevanz", key: "list.sort.relevanz" },
+  { id: "neu", key: "list.sort.neu" },
+  { id: "preis-auf", key: "list.sort.preisAuf" },
+  { id: "preis-ab", key: "list.sort.preisAb" },
+  { id: "premium", key: "list.sort.premium" },
 ];
 
 const PRICE_MAX = 600;
@@ -191,9 +192,13 @@ function FilterGroup({
 function FilterPanel({
   filters,
   set,
+  t,
+  canton: cantonName,
 }: {
   filters: Filters;
   set: (patch: Partial<Filters>) => void;
+  t: Translate;
+  canton: (code: string, fallback: string) => string;
 }) {
   const toggleIn = (key: "services" | "sprachen", value: string) => {
     const cur = filters[key];
@@ -202,16 +207,16 @@ function FilterPanel({
 
   return (
     <div>
-      <FilterGroup title="Region">
+      <FilterGroup title={t("list.region")}>
         <div className="relative">
           <select
             value={filters.kanton}
             onChange={(e) => set({ kanton: e.target.value })}
             className="w-full appearance-none rounded-lg border border-line bg-surface-2 px-3 py-2.5 pr-9 text-sm focus:border-gold/60 focus:outline-none">
-            <option value="">Ganze Schweiz</option>
+            <option value="">{t("list.allSwitzerland")}</option>
             {CANTONS.map((c) => (
               <option key={c.code} value={c.code}>
-                {c.name}
+                {cantonName(c.code, c.name)}
               </option>
             ))}
           </select>
@@ -222,26 +227,26 @@ function FilterPanel({
         </div>
       </FilterGroup>
 
-      <FilterGroup title="Kategorie">
+      <FilterGroup title={t("list.category")}>
         <div className="space-y-0.5">
           <Toggle
             checked={filters.kategorie === ""}
             onChange={() => set({ kategorie: "" })}
-            label="Alle Kategorien"
+            label={t("list.allCategories")}
           />
           {CATEGORIES.map((c) => (
             <Toggle
               key={c.id}
               checked={filters.kategorie === c.id}
               onChange={(v) => set({ kategorie: v ? c.id : "" })}
-              label={c.short}
+              label={t(`cat.${c.id}.short`)}
               count={LISTINGS.filter((l) => l.category === c.id).length}
             />
           ))}
         </div>
       </FilterGroup>
 
-      <FilterGroup title="Preis pro Stunde">
+      <FilterGroup title={t("list.price")}>
         <input
           type="range"
           min={100}
@@ -250,33 +255,33 @@ function FilterPanel({
           value={filters.preis}
           onChange={(e) => set({ preis: Number(e.target.value) })}
           className="w-full accent-[color:var(--noira-gold)]"
-          aria-label="Höchstpreis pro Stunde"
+          aria-label={t("list.priceMaxAria")}
         />
         <p className="mt-2 text-xs text-muted-foreground">
-          bis{" "}
+          {t("list.priceUpTo")}{" "}
           <span className="text-foreground">
-            {filters.preis >= PRICE_MAX ? "beliebig" : chf(filters.preis)}
+            {filters.preis >= PRICE_MAX ? t("list.priceAny") : chf(filters.preis)}
           </span>
         </p>
       </FilterGroup>
 
-      <FilterGroup title="Merkmale">
+      <FilterGroup title={t("list.features")}>
         <Toggle
           checked={filters.verified}
           onChange={(v) => set({ verified: v })}
-          label="Nur verifiziert"
+          label={t("list.verifiedOnly")}
         />
-        <Toggle checked={filters.online} onChange={(v) => set({ online: v })} label="Jetzt erreichbar" />
-        <Toggle checked={filters.video} onChange={(v) => set({ video: v })} label="Mit Video" />
+        <Toggle checked={filters.online} onChange={(v) => set({ online: v })} label={t("list.onlineNow")} />
+        <Toggle checked={filters.video} onChange={(v) => set({ video: v })} label={t("list.withVideo")} />
         <Toggle
           checked={filters.incall}
           onChange={(v) => set({ incall: v })}
-          label="Empfang in eigenen Räumen"
+          label={t("list.incall")}
         />
-        <Toggle checked={filters.outcall} onChange={(v) => set({ outcall: v })} label="Besucht mich" />
+        <Toggle checked={filters.outcall} onChange={(v) => set({ outcall: v })} label={t("list.outcall")} />
       </FilterGroup>
 
-      <FilterGroup title="Services" defaultOpen={false}>
+      <FilterGroup title={t("list.services")} defaultOpen={false}>
         <div className="max-h-64 space-y-0.5 overflow-y-auto pr-1">
           {SERVICES.map((s) => (
             <Toggle
@@ -289,7 +294,7 @@ function FilterPanel({
         </div>
       </FilterGroup>
 
-      <FilterGroup title="Sprachen" defaultOpen={false}>
+      <FilterGroup title={t("list.languages")} defaultOpen={false}>
         <div className="max-h-64 space-y-0.5 overflow-y-auto pr-1">
           {LANGUAGES.map((s) => (
             <Toggle
@@ -310,6 +315,7 @@ export default function Listings() {
   const [, navigate] = useLocation();
   const filters = useMemo(() => parse(search), [search]);
   const [sheetOpen, setSheetOpen] = useState(false);
+  const { t, canton: cantonName } = useI18n();
 
   useEffect(() => {
     document.body.style.overflow = sheetOpen ? "hidden" : "";
@@ -331,7 +337,10 @@ export default function Listings() {
     ...(filters.kanton
       ? [
           {
-            label: CANTONS.find((c) => c.code === filters.kanton)?.name ?? filters.kanton,
+            label: cantonName(
+              filters.kanton,
+              CANTONS.find((c) => c.code === filters.kanton)?.name ?? filters.kanton,
+            ),
             clear: { kanton: "" },
           },
         ]
@@ -339,18 +348,18 @@ export default function Listings() {
     ...(filters.kategorie
       ? [
           {
-            label: CATEGORIES.find((c) => c.id === filters.kategorie)?.short ?? filters.kategorie,
+            label: t(`cat.${filters.kategorie}.short`),
             clear: { kategorie: "" },
           },
         ]
       : []),
-    ...(filters.verified ? [{ label: "Verifiziert", clear: { verified: false } }] : []),
-    ...(filters.online ? [{ label: "Jetzt erreichbar", clear: { online: false } }] : []),
-    ...(filters.video ? [{ label: "Mit Video", clear: { video: false } }] : []),
-    ...(filters.incall ? [{ label: "Empfang", clear: { incall: false } }] : []),
-    ...(filters.outcall ? [{ label: "Besucht mich", clear: { outcall: false } }] : []),
+    ...(filters.verified ? [{ label: t("card.verified"), clear: { verified: false } }] : []),
+    ...(filters.online ? [{ label: t("list.onlineNow"), clear: { online: false } }] : []),
+    ...(filters.video ? [{ label: t("list.withVideo"), clear: { video: false } }] : []),
+    ...(filters.incall ? [{ label: t("list.incallShort"), clear: { incall: false } }] : []),
+    ...(filters.outcall ? [{ label: t("list.outcall"), clear: { outcall: false } }] : []),
     ...(filters.preis < PRICE_MAX
-      ? [{ label: `bis ${chf(filters.preis)}`, clear: { preis: PRICE_MAX } }]
+      ? [{ label: `${t("list.priceUpTo")} ${chf(filters.preis)}`, clear: { preis: PRICE_MAX } }]
       : []),
     ...filters.services.map((s) => ({
       label: s,
@@ -364,13 +373,10 @@ export default function Listings() {
 
   return (
     <div className="container-noira py-10">
-      <p className="eyebrow mb-3">Inserate</p>
+      <p className="eyebrow mb-3">{t("list.eyebrow")}</p>
       <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <h1 className="display text-4xl sm:text-5xl">
-          {results.length}{" "}
-          <span className="text-muted-foreground">
-            {results.length === 1 ? "Treffer" : "Treffer"}
-          </span>
+          {results.length} <span className="text-muted-foreground">{t("list.results")}</span>
         </h1>
 
         <div className="flex items-center gap-2">
@@ -378,7 +384,7 @@ export default function Listings() {
             onClick={() => setSheetOpen(true)}
             className="flex items-center gap-2 rounded-full border border-line px-4 py-2.5 text-sm lg:hidden">
             <SlidersHorizontal className="h-4 w-4" strokeWidth={1.6} />
-            Filter
+            {t("list.filter")}
             {activeChips.length > 0 && (
               <span className="rounded-full bg-gold px-1.5 text-xs font-semibold text-ink">
                 {activeChips.length}
@@ -390,11 +396,11 @@ export default function Listings() {
             <select
               value={filters.sortierung}
               onChange={(e) => set({ sortierung: e.target.value as Sort })}
-              aria-label="Sortierung"
+              aria-label={t("list.sort")}
               className="appearance-none rounded-full border border-line bg-transparent py-2.5 pr-9 pl-4 text-sm focus:border-gold/60 focus:outline-none">
               {SORTS.map((s) => (
                 <option key={s.id} value={s.id}>
-                  {s.label}
+                  {t(s.key)}
                 </option>
               ))}
             </select>
@@ -420,7 +426,7 @@ export default function Listings() {
           <button
             onClick={() => navigate("/inserate", { replace: true })}
             className="px-2 text-xs text-muted-foreground underline underline-offset-2 hover:text-foreground">
-            alle zurücksetzen
+            {t("list.resetAll")}
           </button>
         </div>
       )}
@@ -428,22 +434,19 @@ export default function Listings() {
       <div className="grid gap-8 lg:grid-cols-[16rem_1fr]">
         <aside className="hidden lg:block">
           <div className="sticky top-24">
-            <FilterPanel filters={filters} set={set} />
+            <FilterPanel filters={filters} set={set} t={t} canton={cantonName} />
           </div>
         </aside>
 
         <div>
           {results.length === 0 ? (
             <div className="card-noir flex flex-col items-center px-6 py-20 text-center">
-              <p className="display mb-3 text-3xl">Keine Treffer</p>
-              <p className="mb-6 max-w-sm text-sm text-muted-foreground">
-                Mit dieser Kombination finden wir gerade nichts. Weniger Filter, mehr Auswahl —
-                oder eine Suche in einer Nachbarregion.
-              </p>
+              <p className="display mb-3 text-3xl">{t("list.emptyTitle")}</p>
+              <p className="mb-6 max-w-sm text-sm text-muted-foreground">{t("list.emptyText")}</p>
               <button
                 onClick={() => navigate("/inserate", { replace: true })}
                 className="rounded-full bg-gold px-6 py-3 text-sm font-semibold text-ink">
-                Filter zurücksetzen
+                {t("list.reset")}
               </button>
             </div>
           ) : (
@@ -455,8 +458,7 @@ export default function Listings() {
           )}
 
           <p className="mt-10 text-center text-xs text-muted-foreground/70">
-            Alle Inserate werden von den Anbietenden selbst erstellt. NOIRA vermittelt keine
-            Dienstleistungen und ist an Absprachen nicht beteiligt.
+{t("list.disclaimer")}
           </p>
         </div>
       </div>
@@ -465,19 +467,19 @@ export default function Listings() {
       {sheetOpen && (
         <div className="fixed inset-0 z-60 flex flex-col bg-ink lg:hidden">
           <div className="flex h-16 shrink-0 items-center justify-between border-b border-line px-5">
-            <span className="text-sm font-medium">Filter</span>
-            <button onClick={() => setSheetOpen(false)} aria-label="Filter schliessen">
+            <span className="text-sm font-medium">{t("list.filter")}</span>
+            <button onClick={() => setSheetOpen(false)} aria-label={t("list.closeFilter")}>
               <X className="h-5 w-5" strokeWidth={1.6} />
             </button>
           </div>
           <div className="flex-1 overflow-y-auto px-5">
-            <FilterPanel filters={filters} set={set} />
+            <FilterPanel filters={filters} set={set} t={t} canton={cantonName} />
           </div>
           <div className="shrink-0 border-t border-line p-5">
             <button
               onClick={() => setSheetOpen(false)}
               className="w-full rounded-full bg-gold py-3.5 text-sm font-semibold text-ink">
-              {results.length} Treffer anzeigen
+              {t("list.showResults", { n: results.length })}
             </button>
           </div>
         </div>

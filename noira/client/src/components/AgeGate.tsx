@@ -6,6 +6,7 @@
    gestoppt werden.
    ============================================================ */
 
+import { useI18n } from "@/lib/i18n";
 import { useEffect, useState } from "react";
 import { Link } from "wouter";
 import { EclipseMark, Wordmark } from "./Wordmark";
@@ -15,6 +16,7 @@ const EXIT_URL = "https://www.google.ch";
 
 export function AgeGate() {
   const [open, setOpen] = useState(false);
+  const { t } = useI18n();
 
   useEffect(() => {
     try {
@@ -58,39 +60,52 @@ export function AgeGate() {
             ohne Erklärung — der Schriftzug folgt erst darunter. */}
         <EclipseMark className="mx-auto mb-6 h-16 w-16" />
         <Wordmark className="mb-8 flex justify-center text-[0.85rem]" />
-        <p className="eyebrow mx-auto mb-4">Zutritt ab 18 Jahren</p>
+        <p className="eyebrow mx-auto mb-4">{t("age.eyebrow")}</p>
         <h1 id="agegate-title" className="display mb-4 text-3xl sm:text-4xl">
-          Diese Seite enthält Inhalte für <span className="text-gilded">Erwachsene</span>
+          {t("age.title")} <span className="text-gilded">{t("age.titleAccent")}</span>
         </h1>
         <p className="mx-auto mb-7 max-w-md text-sm leading-relaxed text-muted-foreground">
-          NOIRA ist eine Inserateplattform für erotische Dienstleistungen in der Schweiz. Mit dem
-          Betreten bestätigen Sie, dass Sie mindestens 18 Jahre alt sind, dass solche Inhalte an
-          Ihrem Aufenthaltsort erlaubt sind und dass Sie sie freiwillig aufrufen.
+{t("age.body")}
         </p>
 
         <div className="flex flex-col gap-3 sm:flex-row">
           <button
             onClick={confirm}
             className="flex-1 rounded-lg bg-gold px-6 py-3.5 text-sm font-semibold text-ink transition hover:brightness-110 active:scale-[0.99]">
-            Ich bin 18 oder älter — eintreten
+            {t("age.enter")}
           </button>
           <a
             href={EXIT_URL}
             className="flex-1 rounded-lg border border-line px-6 py-3.5 text-sm font-medium text-muted-foreground transition hover:border-foreground/40 hover:text-foreground">
-            Ich bin jünger — verlassen
+            {t("age.leave")}
           </a>
         </div>
 
         <p className="mt-7 text-xs leading-relaxed text-muted-foreground/70">
-          Wir setzen nur technisch notwendige Cookies. Details in der{" "}
-          <Link href="/datenschutz" className="text-gold-soft underline underline-offset-2">
-            Datenschutzerklärung
-          </Link>
-          . Hinweise auf Zwang, Ausbeutung oder Minderjährige melden Sie bitte sofort über{" "}
-          <Link href="/sicherheit" className="text-gold-soft underline underline-offset-2">
-            Sicherheit &amp; Meldestelle
-          </Link>
-          .
+          {/* Zwei Links mitten im Satz: Der Text kommt als Vorlage mit
+              Platzhaltern, damit jede Sprache ihre eigene Satzstellung
+              behalten darf. */}
+          {t("age.note")
+            .split(/(\{privacy\}|\{safety\})/)
+            .map((part, i) =>
+              part === "{privacy}" ? (
+                <Link
+                  key={i}
+                  href="/datenschutz"
+                  className="text-gold-soft underline underline-offset-2">
+                  {t("age.privacyLink")}
+                </Link>
+              ) : part === "{safety}" ? (
+                <Link
+                  key={i}
+                  href="/sicherheit"
+                  className="text-gold-soft underline underline-offset-2">
+                  {t("age.safetyLink")}
+                </Link>
+              ) : (
+                <span key={i}>{part}</span>
+              ),
+            )}
         </p>
       </div>
     </div>

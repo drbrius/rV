@@ -269,7 +269,54 @@ Buchungstext auf allen Abrechnungen: `NM DIGITAL GMBH, ZUERICH`.
 > Livegang braucht es einen Acquirer mit ausdrücklicher Freigabe für MCC 7273 —
 > das ist der kritische Pfad des Projekts, nicht die Technik.
 
-## 7. Was noch fehlt
+## 7. Auslieferung
+
+### Oberfläche auf Vercel
+
+Das Frontend ist eine statische Einzelseiten-Anwendung und läuft auf
+Vercel ohne Zutun. `vercel.json` liegt bereit: Build, SPA-Rewrite,
+Sicherheits-Kopfzeilen, unveränderliche Zwischenspeicherung für
+gehashte Dateien, dazu das **RTA-Label** — die Kennzeichnung, an der
+Jugendschutzfilter erwachsene Inhalte erkennen.
+
+```bash
+npx vercel link          # einmalig; Root Directory: noira
+npx vercel --prod
+```
+
+**Wichtig:** Dieses Repository enthält zwei Projekte (`noira/` und
+`ramseier-verlag/`). In den Projekteinstellungen muss **Root
+Directory = `noira`** stehen, sonst findet Vercel weder
+`package.json` noch `vercel.json`.
+
+Der SPA-Rewrite ist bewusst als `/((?!api/).*)` geschrieben: Ohne die
+Ausnahme beantwortet Vercel einen Fehlgriff auf `/api/…` mit der
+HTML-Seite statt mit einem Fehler — der Client bekäme dann `<!doctype
+html>`, wo er JSON erwartet, und meldete einen Parser-Fehler statt
+„nicht gefunden".
+
+### Der Server läuft dort **nicht**
+
+Das Backend hält Zustand auf der Platte: SQLite-Datei, hochgeladene
+Fotos, verschlüsselte Ausweise. Vercels Funktionen haben ein
+flüchtiges Dateisystem — nur `/tmp`, je Instanz eigen, beim nächsten
+Kaltstart weg. Ein dorthin geschobener Server nähme Inserate
+entgegen, verlöre sie und meldete dabei keinen Fehler. Das ist
+schlimmer als gar kein Server.
+
+Zwei gangbare Wege:
+
+| | Was zu tun ist |
+| --- | --- |
+| **API auf einen dauerhaften Host** (Fly.io, Railway, Hetzner) | Nichts am Code. Volume für `var/`, `pnpm server:build`, `pnpm server:start`. Frontend bekommt die API-Adresse als `VITE_API_URL`. |
+| **API auf Vercel** | Postgres (Neon/Vercel Postgres) statt SQLite und Blob-Speicher statt Dateisystem. Der Umbau ist vorbereitet — alle Abfragen laufen über `all/one/run/tx`, alle Dateizugriffe über vier Funktionen in `lib/storage.ts` — aber er ist echte Arbeit: `node:sqlite` ist synchron, Postgres nicht, also wird die Datenschicht asynchron und mit ihr jede Funktion darüber. |
+
+Solange keiner der beiden Wege gegangen ist, zeigt die
+ausgelieferte Seite den Demo-Datensatz aus `client/src/data/` — genau
+das, was sie heute im Browser zeigt. Sie ist damit vollständig
+bedienbar und vollständig unecht.
+
+## 8. Was noch fehlt
 
 Frontend und Backend stehen; der Demo-Datenbestand liegt weiterhin in
 `client/src/data/` und wird von `pnpm seed` in die Datenbank übernommen.
